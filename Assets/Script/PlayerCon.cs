@@ -16,7 +16,7 @@ public class PlayerCon : MonoBehaviour,IPlayerHurt
     public float maxHitTime=5;//最大蓄力值
     private float hitTimer = 0f;//蓄力计时器
 
-    public float hitTime = 0.7f;//旋转时间
+    public float hitTime = 0.3f;//旋转时间
     private float timer = 0f;//旋转计时器
     private bool isHit=false;
     
@@ -53,29 +53,32 @@ public class PlayerCon : MonoBehaviour,IPlayerHurt
         PlayerInput();
         Dead();
         slider.value = hitTimer / maxHitTime;
-        if (isHit)
-        {
-            timer += Time.deltaTime;
-            hand.transform.rotation=quaternion.Euler(0,0,timer/hitTime * 360);
-        }
-        if (timer >= hitTime)
-        {
-            timer = 0f;
-            isHit = false;
-            hand.transform.rotation=quaternion.Euler(0,0,0);
-        }
+
     }
 
     private void FixedUpdate()
     {
         PlayerMove();
+        if (isHit)
+        {
+            timer += Time.fixedDeltaTime;
+            hand.transform.rotation=Quaternion.Euler(0,0,timer/hitTime * 360f);
+        }
+        if (timer >= hitTime)
+        {
+            timer = 0f;
+            isHit = false;
+            hand.transform.rotation=Quaternion.Euler(0,0,0);
+            if (moveDir.x<0)
+            {
+                hand.transform.rotation=Quaternion.Euler(0,180,0);
+            }
+        }
     }
 
     void PlayerInput()
     {
         moveDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
-
-        
         if (Input.GetKey(KeyCode.Space))
         {
             hitTimer += Time.deltaTime;
@@ -85,7 +88,10 @@ public class PlayerCon : MonoBehaviour,IPlayerHurt
         if (Input.GetKeyUp(KeyCode.Space))
         {
             //输出蓄力值
-            HitEnemy();
+            if (!isHit)
+            {
+                HitEnemy();
+            }
             hitTimer = 0f;
         }
     }

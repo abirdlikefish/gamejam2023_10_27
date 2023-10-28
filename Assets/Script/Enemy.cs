@@ -138,7 +138,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
             leftTime -= Time.deltaTime;
             if(leftTime * 2 < flyTime)
             {
-                m_rigidbody.velocity = velocity * leftTime * 2 / flyTime;
+                m_rigidbody.velocity = velocity * (leftTime * 2) / flyTime;
             }
             yield return null;
         }
