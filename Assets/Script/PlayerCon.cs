@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,20 +9,23 @@ using UnityEngine.UI;
 public class PlayerCon : MonoBehaviour,IPlayerHurt
 {
     [Header("基础属性")]
-    public float health;//生命值
-    public float speed;//速度
+    public float health=10;//生命值
+    public float speed=5;//速度
     [Header("击飞敌人")] 
-    public float maxHitForce;//最大击飞力
-    public float maxHitTime;//最大蓄力值
-    private float time = 0f;
+    public float maxHitForce=10;//最大击飞力
+    public float maxHitTime=5;//最大蓄力值
+    private float hitTimer = 0f;//蓄力计时器
+
+    public float hitTime = 0.7f;//旋转时间
+    private float timer = 0f;//旋转计时器
+    private bool isHit=false;
+    
     public float value;
-    public float enemySpeed;
-    public float enemyFlyTime;
+    public float enemySpeed=5;
+    public float enemyFlyTime=3;
     [Header("敌人")] 
 
     private Vector2 moveDir;// 移动方向
-    private Vector2 mousePos;//鼠标位置
-    private Camera playerCam;//摄像机
 
 
     private Rigidbody2D rb;
@@ -38,7 +42,6 @@ public class PlayerCon : MonoBehaviour,IPlayerHurt
         rb = GetComponent<Rigidbody2D>();
         cl = GetComponent<Collider2D>();
         mySpr = GetComponent<SpriteRenderer>();
-        playerCam=Camera.main;
         hand = GameObject.Find("Hand").GetComponent<Hand>();
         handCl = hand.GetComponent<Collider2D>();
         handAnimator = hand.GetComponent<Animator>();
@@ -49,46 +52,48 @@ public class PlayerCon : MonoBehaviour,IPlayerHurt
     {
         PlayerInput();
         Dead();
-        slider.value = time / maxHitTime;
+        slider.value = hitTimer / maxHitTime;
+        if (isHit)
+        {
+            timer += Time.deltaTime;
+            hand.transform.rotation=quaternion.Euler(0,0,360*timer/hitTime);
+        }
+        if (timer >= hitTime)
+        {
+            timer = 0f;
+            isHit = false;
+            hand.transform.rotation=quaternion.Euler(0,0,0);
+        }
     }
 
     private void FixedUpdate()
     {
         PlayerMove();
-        HandMove();
     }
 
     void PlayerInput()
     {
         moveDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
-        mousePos = playerCam.ScreenToWorldPoint(Input.mousePosition);
 
         
-        if (Input.GetMouseButton(0))
+        if (Input.GetKey(KeyCode.Space))
         {
-            time += Time.deltaTime;
-            time = time < maxHitTime ? time : maxHitTime;
+            hitTimer += Time.deltaTime;
+            hitTimer = hitTimer < maxHitTime ? hitTimer : maxHitTime;
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             //输出蓄力值
             HitEnemy();
-            time = 0f;
+            hitTimer = 0f;
         }
     }
 
     void PlayerMove()
     {
         rb.velocity = moveDir * speed;
-    }
-
-    void HandMove()
-    {
-        // 计算手的朝向
-        Vector2 direction = mousePos - (Vector2)transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        if (mousePos.x <transform.position.x )
+        if (moveDir.x < 0)
         {
             transform.rotation = Quaternion.Euler(0, 180, 0);
             
@@ -97,23 +102,20 @@ public class PlayerCon : MonoBehaviour,IPlayerHurt
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
-        // 旋转手的角度
-        hand.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
     void HitEnemy()
     {
-        //创建扇形区域并击飞
+        //创建圆心形区域并击飞
         handCl.enabled = true;
-        value = time / maxHitTime;
-        //关闭扇形区域并初始化enemyList
+        value = hitTimer / maxHitTime;
+        //关闭圆形区域
         StartCoroutine(StartHit());
+        isHit = true;
     }
     IEnumerator StartHit()
     {
-        handAnimator.enabled = true;
-        yield return new WaitForSeconds(handAnimator.GetCurrentAnimatorStateInfo(0).length);
-        handAnimator.enabled = false;
+        yield return new WaitForSeconds(hitTime);
         handCl.enabled = false;
     }
     public void Hurt(float damage)
