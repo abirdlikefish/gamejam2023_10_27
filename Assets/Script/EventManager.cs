@@ -8,7 +8,11 @@ using UnityEngine.UIElements;
 public class EventManager : MonoBehaviour
 {
 
-    public Action<float> GetScore;
+    public Action<float> Score;
+
+    public Action<int> Level;
+    public Action<float , float> HP;
+    
 
     //Vector3 position, float atk, float begSize, float finSize, int color, float growTime
     public Action<Vector3, float, float, float, int, float> Enemy_1;
@@ -16,14 +20,28 @@ public class EventManager : MonoBehaviour
     //Vector3 position, float speed, float atk, float begSize, float finSize, int color, float growTime
     public Action<Vector3, float, float, float, float, int, float> Enemy_2;
 
+    public void HPChange(float HP , float maxHP)
+    {
+        this.HP?.Invoke(HP , maxHP);
+    }
+    public void UpLevel(int index)
+    {
+        Level?.Invoke(index);
+    }
 
+    public void AddScore(float score)
+    {
+        Score?.Invoke(score);
+    }
 
-
-    // enemy_1 静止敌人
-    // enemy_2 运动敌人
-    // 通过下面两个函数生成敌人
-    // 示例 :
-    // EventManager.Instance.CreateEnemy_1(........);
+    // 0 add maxHP 
+    // 1 add speed
+    // 2 add begForce
+    // 3 add maxForce
+    // 4 add charge speed
+    // 5 add enemy fly time
+    // enemy_1 static enemy
+    // enemy_2 normal enemy
     public void CreateEnemy_1(Vector3 position, float atk, float begSize, float finSize, int color, float growTime)
     {
         Enemy_1?.Invoke(position, atk, begSize, finSize, color, growTime);
@@ -37,15 +55,7 @@ public class EventManager : MonoBehaviour
     
     
     
-    public static EventManager Instance { get; private set; }
-    
-    
-    
-    
-    
-    
-    
-    // Start is called before the first frame update
+    public static EventManager Instance { get; private set; }   
     void Awake()
     {
         if(Instance == null)

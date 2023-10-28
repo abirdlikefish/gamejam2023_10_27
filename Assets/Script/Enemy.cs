@@ -6,21 +6,24 @@ using System;
 
 public class Enemy : MonoBehaviour , IEnemyBeHit
 {
-    protected bool m_isStatic = true;
-    protected bool m_isFly = false;
-    protected float m_size = 1;
-    protected float m_speed = 1;
+    protected bool m_isStatic;
+    [SerializeField]
+    protected bool m_isFly;
+    [SerializeField]
+    protected float m_size ;
+    protected float m_speed ;
     protected float m_atk = 1;
+    [SerializeField]
     protected int m_color;
     protected float m_growTime;
-    //public GameObject prefabEnemy;   // 敌人预制体，inspector窗口中获取
 
-    public GameObject m_player;  // 后改为protected
+    protected GameObject m_player;
     protected CircleCollider2D m_circleCollider;
     protected Rigidbody2D m_rigidbody;
     protected SpriteRenderer m_spriteRenderer;
+    protected SpriteRenderer m_spriteRenderer_mouth;
+    protected SpriteRenderer m_spriteRenderer_eyes;
 
-    protected Coroutine m_flyCoroutine;
     protected Camera m_camera;
 
     public bool IsFly
@@ -36,47 +39,54 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
         m_circleCollider = GetComponent<CircleCollider2D>();
         m_rigidbody = GetComponent<Rigidbody2D>();
         m_spriteRenderer = GetComponent<SpriteRenderer>();
+        m_spriteRenderer_mouth = transform.Find("Mouth").GetComponent<SpriteRenderer>();
+        m_spriteRenderer_eyes = transform.Find("Eyes").GetComponent<SpriteRenderer>();
+
         m_camera = Camera.main;
         if(m_circleCollider == null)
         {
-            Debug.Log("enemy无法获取collider");
+            Debug.Log("enemy collider is null");
         }
         if(m_rigidbody == null)
         {
-            Debug.Log("enemy无法获取rigidbody");
+            Debug.Log("enemy rigidbody is null");
         }
         if(m_spriteRenderer == null)
         {
-            Debug.Log("enemy无法获取spriterender");
+            Debug.Log("enemy spriterender is null");
+        }
+        if(m_spriteRenderer_mouth == null)
+        {
+            Debug.Log("enemy mouth spriterender is null");
+        }
+        if(m_spriteRenderer_eyes == null)
+        {
+            Debug.Log("enemy eyes spriterender is null");
         }
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
+        if(m_isFly == false)
+        {
+            return ;
+        }
 
         if (collision.CompareTag("Enemy"))
         {
             Enemy enemy = collision.GetComponent<Enemy>();
             if (enemy == null)
             {
-                Debug.Log("无法获取敌人");
+                Debug.Log("enemy is null");
             }
             if (enemy.IsFly)
             {
                 return;
             }
-            if (m_flyCoroutine == null)
-            {
-                Debug.Log("m_flyCoroutine 为 null");
-            }
-            StopCoroutine(m_flyCoroutine);
-            m_flyCoroutine = null;
             m_isFly = false;
             m_rigidbody.velocity = new Vector2(0, 0);
             m_circleCollider.isTrigger = false;
 
-
-            // 生成敌人
 
             int midColor = m_color | enemy.m_color;
             Vector3 midPosition = (enemy.transform.position * enemy.m_size + transform.position * m_size) / (m_size + enemy.m_size);
@@ -95,12 +105,15 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
         }
     }
 
-    protected virtual void OnTriggerStay2D(Collider2D collision)    //无法持续扣血
+    protected virtual void OnTriggerStay2D(Collider2D collision) 
     {
         if ((!m_isFly) && collision.CompareTag("Player"))
         {
-            //玩家受伤
             IPlayerHurt playerHurt = collision.GetComponent<IPlayerHurt>();
+            if(playerHurt == null)
+            {
+                Debug.Log("playerHurt is null");
+            }
             playerHurt.Hurt(m_atk);
 
         }
@@ -118,33 +131,21 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
         Vector2 viewportPosition = m_camera.WorldToViewportPoint(gameObject.transform.position);
         if(viewportPosition.x < 0 || viewportPosition.y < 0 || viewportPosition.x > 1 || viewportPosition.y > 1)
         {
-            //超出范围
+            //out of the range of camera
         }
     }
 
 
-    //protected virtual void OnCollisionStay2D(Collision2D collision)
-    //{
-    //    if(collision.gameObject.CompareTag("Player"))
-    //    {
-    //        //玩家受伤
-    //        IPlayerHurt playerHurt = collision.gameObject.GetComponent<IPlayerHurt>();
-    //        playerHurt.Hurt(m_atk);
-    //    }
-    //}
-
     public virtual void EnemyBeHit(Vector2 velocity, float strength , float flyTime)
     {
-        Debug.Log(strength);
         if((!m_isFly) && strength < m_size )
         {
             return;
         }
-        Debug.Log("beattacked");
         m_isFly = true;
         m_circleCollider.isTrigger = true;
         m_rigidbody.velocity = velocity;
-        m_flyCoroutine = StartCoroutine(Fly(flyTime));
+        StartCoroutine(Fly(flyTime));
     }
 
     IEnumerator Fly(float flyTime)
@@ -156,11 +157,23 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
             leftTime -= Time.deltaTime;
             if(leftTime * 2 < flyTime)
             {
+                if(m_rigidbody == null)
+                {
+                    Debug.Log("can't find m_rigidbody in fly");
+                }
                 m_rigidbody.velocity = velocity * leftTime * 2 / flyTime;
             }
             yield return null;
         }
 
+        if(m_rigidbody == null)
+        {
+            Debug.Log("can't find m_rigidbody in fly");
+        }
+        if(m_circleCollider == null)
+        {
+            Debug.Log("can't find m_circleCollider in fly");
+        }
         m_isFly = false;
         m_rigidbody.velocity = new Vector2(0, 0);
         m_circleCollider.isTrigger = false;
@@ -179,7 +192,9 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
             yield return null;
         }
         gameObject.transform.localScale = new Vector3(finSize, finSize, finSize);
+        m_circleCollider.isTrigger = false ;
         m_circleCollider.enabled = true;
+        m_size = finSize;
     }
 
     IEnumerator GrowToDead(float begSize, float finSize)
@@ -192,42 +207,26 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
             passedTime += Time.deltaTime;
             float k = (finSize - begSize) * passedTime / m_growTime + begSize;
             gameObject.transform.localScale = new Vector3(k, k, k);
-            m_spriteRenderer.color = new Color(m_spriteRenderer.color.r, m_spriteRenderer.color.g, m_spriteRenderer.color.b, 1 - k);
+            m_spriteRenderer.color = new Color(m_spriteRenderer.color.r, m_spriteRenderer.color.g, m_spriteRenderer.color.b, 1.0f - passedTime / m_growTime);
             yield return null;
         }
         KillEnemy(true);
     }
 
 
-    //public virtual void CreateNewEnemy(GameObject player , GameObject prefabEnemy, Vector3 position , bool isStatic , float speed , float atk , float size , int color)
-    //{
-    //    GameObject newEnemy = Instantiate(prefabEnemy);
-    //    newEnemy.transform.position = position;
-    //    newEnemy.transform.localScale = new Vector3 (size, size, size);
-    //    Enemy enemy = newEnemy.GetComponent<Enemy>();
-    //    enemy.m_player = player;
-    //    enemy.m_isFly = false;
-    //    enemy.m_isStatic = isStatic;
-    //    enemy.m_speed = speed;
-    //    enemy.m_atk = atk;
-    //    enemy.m_size = size;
-    //    enemy.m_color = (1 << color);
-    //    if(color < 0 || color > 2)
-    //    {
-    //        Debug.Log("wrong color");
-    //    }
-    //}
-
-    public virtual void Initialization(bool isStatic , float speed, float atk, float begSize, float finSize, int color , float growTime , Sprite body)
+    public virtual void Initialization(GameObject player , bool isStatic , float speed, float atk, float begSize, float finSize, int color , float growTime , Sprite body , Sprite mouth , Sprite eyes)
     {
-        m_spriteRenderer.sprite = body;
+        m_player = player ;
+        m_isStatic = isStatic;
         m_speed = speed;
         m_atk = atk;
         m_color = color;
         m_growTime = growTime;
 
         m_isFly = false;
-        m_isStatic = isStatic;
+        m_spriteRenderer.sprite = body;
+        m_spriteRenderer_mouth.sprite = mouth;
+        m_spriteRenderer_eyes.sprite = eyes;
 
         if(m_color == (1 << 3) - 1)
         {
@@ -245,13 +244,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
     {
         if(isScore)
         {
-            EventManager.Instance.GetScore?.Invoke(m_size);
-        }
-
-        if(m_flyCoroutine != null)
-        {
-            StopCoroutine(m_flyCoroutine);
-            m_flyCoroutine = null;
+            EventManager.Instance.AddScore(m_size);
         }
         Destroy(gameObject);
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameObjectManager : MonoBehaviour
 {
     public Sprite[] enemyBody = new Sprite[6];
-    public Sprite[] enemyEye = new Sprite[6];
+    public Sprite[] enemyEyes = new Sprite[6];
     public Sprite[] enemyMouth = new Sprite[6];
 
     public GameObject player;
@@ -16,8 +16,8 @@ public class GameObjectManager : MonoBehaviour
 
 
 
-    // 1 静止敌人
-    // 2 运动敌人
+    // 1 static enemy
+    // 2 normal enemy
     public virtual void CreateNewEnemy_1(Vector3 position, float atk, float begSize, float finSize, int color, float growTime)
     {
         GameObject newEnemy = Instantiate(prefabEnemy);
@@ -37,8 +37,10 @@ public class GameObjectManager : MonoBehaviour
         }
 
         Sprite spriteBody = enemyBody[Random.Range(0, 6)];
+        Sprite spriteMouth = enemyMouth[Random.Range(0,6)];
+        Sprite spriteEyes = enemyEyes[Random.Range(0,6)];
 
-        enemy.Initialization(true, 0, atk, begSize, finSize, color, growTime, spriteBody);
+        enemy.Initialization(player , true, 0, atk, begSize, finSize, color, growTime, spriteBody , spriteMouth , spriteEyes);
     }
 
     public virtual void CreateNewEnemy_2(Vector3 position, float speed, float atk, float begSize, float finSize, int color, float growTime)
@@ -60,15 +62,17 @@ public class GameObjectManager : MonoBehaviour
         }
 
         Sprite spriteBody = enemyBody[Random.Range(0, 6)];
+        Sprite spriteMouth = enemyMouth[Random.Range(0,6)];
+        Sprite spriteEyes = enemyEyes[Random.Range(0,6)];
 
-        enemy.Initialization(true, speed, atk, begSize, finSize, color, growTime, spriteBody);
+        enemy.Initialization(player , false, speed, atk, begSize, finSize, color, growTime, spriteBody , spriteMouth , spriteEyes);
     }
 
 
-    // Start is called before the first frame update
     void Start()
     {
         EventManager.Instance.Enemy_1 += CreateNewEnemy_1;
         EventManager.Instance.Enemy_2 += CreateNewEnemy_2;
     }
+
 }
