@@ -56,7 +56,7 @@ public class PlayerCon : MonoBehaviour,IPlayerHurt
         if (isHit)
         {
             timer += Time.deltaTime;
-            hand.transform.rotation=quaternion.Euler(0,0,360*timer/hitTime);
+            hand.transform.rotation=quaternion.Euler(0,0,timer/hitTime * 360);
         }
         if (timer >= hitTime)
         {

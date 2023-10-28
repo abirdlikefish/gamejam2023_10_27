@@ -90,7 +90,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
     }
     protected virtual void FixedUpdate()
     {
-        if(!m_isStatic)
+        if((!m_isStatic) && (!m_isFly))
         {
             Vector2 midDirection = m_player.transform.position - gameObject.transform.position;
             midDirection.Normalize();
