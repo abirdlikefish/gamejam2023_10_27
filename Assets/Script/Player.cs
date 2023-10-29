@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,11 +22,15 @@ public class Player : MonoBehaviour,IPlayerHurt
     protected float m_attackTime_lef ;
     protected bool m_isAttack;
     protected bool m_isCharge ;
+    protected bool m_isChargeOver ;
 
     protected Rigidbody2D m_rigidbody;
     protected SpriteRenderer m_renderer;
     protected GameObject m_weapon;
     protected Rigidbody2D m_rigidbody_weapon;
+
+    //public GameObject virtualCamera;
+    public CinemachineVirtualCamera virtualCamera;
 
     void Awake()
     {
@@ -45,6 +50,9 @@ public class Player : MonoBehaviour,IPlayerHurt
         m_attackTime_lef = 0;
         m_isAttack = false ;
         m_isCharge = false ;
+        m_isChargeOver = false ;
+
+        //cameraFactor = 1;
 
         m_rigidbody = gameObject.GetComponent<Rigidbody2D>();
         m_renderer = gameObject.GetComponent<SpriteRenderer>();
@@ -69,17 +77,19 @@ public class Player : MonoBehaviour,IPlayerHurt
     {
         EventManager.Instance.Level += UpLevel;
         EventManager.Instance.HPChange(m_HP , m_maxHP);
+
+        m_weapon.GetComponent<WeaponShining>().Close();
     }
     void Update()
     {
         m_direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
         if(m_direction.x > 0.01 )
         {
-            transform.localScale = new Vector3(1,1,1);
+            transform.localScale = new Vector3(-1,1,1);
         }
         else if(m_direction.x < -0.01)
         {
-            transform.localScale = new Vector3(-1,1,1);
+            transform.localScale = new Vector3(1,1,1);
         }
         m_rigidbody.velocity = m_direction * m_speed ;
         if(m_isCharge || m_isAttack)
@@ -92,12 +102,19 @@ public class Player : MonoBehaviour,IPlayerHurt
             m_isCharge = true;
         }
 
-        if (m_isCharge)
+        if (m_isChargeOver == false && m_isCharge)
         {
             m_nowForce += Time.deltaTime * m_forceIncreaseSpeed ;
-            if(m_nowForce >= m_maxForce)
+
+            virtualCamera.m_Lens.OrthographicSize = 6 + m_nowForce - 1 ;
+
+            if(m_isChargeOver == false && m_nowForce >= m_maxForce)
             {
+                m_isChargeOver = true;
                 m_nowForce = m_maxForce;
+
+                m_weapon.GetComponent<WeaponShining>().Open();
+
             }
 
             m_weapon.transform.localScale = new Vector3(m_nowForce , m_nowForce , m_nowForce );
@@ -106,6 +123,13 @@ public class Player : MonoBehaviour,IPlayerHurt
         if(Input.GetKeyUp(KeyCode.Space))
         {
             m_isCharge = false ;
+            m_isChargeOver = false;
+            //virtualCamera.m_Lens.OrthographicSize = 6 ;
+            StartCoroutine(cameraDrop(0.4f));
+
+            m_weapon.GetComponent<WeaponShining>().Close();
+
+
             Attack();
         }
 
@@ -123,6 +147,18 @@ public class Player : MonoBehaviour,IPlayerHurt
 
     }
 
+    IEnumerator cameraDrop(float time)
+    {
+        float passingTime = 0;
+        float originCamera = virtualCamera.m_Lens.OrthographicSize;
+        while (passingTime < time)
+        {
+            passingTime += Time.deltaTime;
+            virtualCamera.m_Lens.OrthographicSize = 6 + (originCamera - 6) * (time - passingTime) / time;
+            yield return null;
+        }
+        virtualCamera.m_Lens.OrthographicSize = 6;
+    }
     public void UpLevel(int index)
     {
         switch(index)

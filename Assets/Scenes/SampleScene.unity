@@ -1147,7 +1147,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1631513795}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 6.79
+    OrthographicSize: 6
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -1517,7 +1517,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.79
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4268,6 +4268,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2566134596281325655, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
+      propertyPath: virtualCamera
+      value: 
+      objectReference: {fileID: 410063165}
     - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
       propertyPath: enemyBoss
       value: 
@@ -4327,3 +4331,4 @@ SceneRoots:
   - {fileID: 1610676857707252043}
   - {fileID: 1081870241}
   - {fileID: 1513693659}
+  - {fileID: 2125495062}

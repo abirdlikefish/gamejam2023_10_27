@@ -93,17 +93,17 @@ public class CreateEnemy : MonoBehaviour
             Vector3 midPosition =new Vector3(Random.Range(-cameraWidth, cameraWidth), Random.Range(-cameraHeight, cameraHeight), 0) + Camera.main.transform.position;
             midPosition.z = 0;
 
-            int midEnemyType = 1;
-            //if(Random.Range(0,20) <= 0)
-            //{
-            //    Debug.Log("create boss");
-            //    midEnemyType |= (1 << 4);
-            //}
-            //else if(Random.Range(0,20) <= 10)
-            //{
-            //    Debug.Log("create colorenemy");
-            //    midEnemyType |= 1;
-            //}
+            int midEnemyType = 0;
+            if(Random.Range(0, 20) == 0)
+            {
+                Debug.Log("create boss");
+                midEnemyType |= (1 << 4);
+            }
+            else if (Random.Range(0, 20) <= 3)
+            {
+                Debug.Log("create colorenemy");
+                midEnemyType |= 1;
+            }
             EventManager.Instance.CreateEnemy(midEnemyType | 2 , midPosition,Random.Range(1.0f + (4 - hard_2) / 2, 1.0f + 4.0f - hard_2), 5 - hard_2, 0.5f, 5 - hard_2, -1, 1);
             hard_2_lastTime = totalTime;
         }
