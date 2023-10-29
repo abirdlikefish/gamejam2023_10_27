@@ -29,8 +29,8 @@ public class Player : MonoBehaviour,IPlayerHurt
 
     void Awake()
     {
-        m_maxHP = 100 ;
-        m_HP = 100 ;
+        m_maxHP = 400 ;
+        m_HP = 400 ;
         m_beAttackedTime_lef = 0;
         m_speed = 5;
         m_direction = new Vector2(0,0);

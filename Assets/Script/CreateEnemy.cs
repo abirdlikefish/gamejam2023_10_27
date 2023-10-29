@@ -66,24 +66,17 @@ public class CreateEnemy : MonoBehaviour
 
         if (totalTime - hard_1_lastTime > hard_1 * Random.Range(0.9f, 1.1f) )
         {
-            //Debug.Log("create enemy1");
-            //Debug.Log(hard_1 * Random.Range(0.9f, 1.1f));
-            //new Vector3(Random.Range(-cameraWidth , cameraWidth , 0) , Random.Range(-cameraHeight, cameraHeight, 0) , 0)
-            //if(Random.Range(0,2) == 0)
-            //{
-            //}
-            EventManager.Instance.CreateEnemy_1(new Vector3(Random.Range(-cameraWidth, cameraWidth), Random.Range(-cameraHeight, cameraHeight), 0), 4 - hard_1, 0.5f, 4 - hard_1, -1, 1);
+            Vector3 midPosition = new Vector3(Random.Range(-cameraWidth, cameraWidth), Random.Range(-cameraHeight, cameraHeight), 0) + Camera.main.transform.position;
+            midPosition.z = 0;
+            EventManager.Instance.CreateEnemy_1(midPosition, 4 - hard_1, 0.5f, 4 - hard_1, -1, 1);
             hard_1_lastTime = totalTime;
         }
 
         if (totalTime - hard_2_lastTime > hard_2 * Random.Range(0.9f, 1.1f))
         {
-            //Debug.Log("create enemy2");
-            //new Vector3(Random.Range(-cameraWidth , cameraWidth , 0) , Random.Range(-cameraHeight, cameraHeight, 0) , 0)
-            //if(Random.Range(0,2) == 0)
-            //{
-            //}
-            EventManager.Instance.CreateEnemy_2(new Vector3(Random.Range(-cameraWidth, cameraWidth), Random.Range(-cameraHeight, cameraHeight), 0), Random.Range(1.0f + (4 - hard_2) / 2, 1.0f + 4.0f - hard_2), 5 - hard_2, 0.5f, 5 - hard_2, -1, 1);
+            Vector3 midPosition = new Vector3(Random.Range(-cameraWidth, cameraWidth), Random.Range(-cameraHeight, cameraHeight), 0) + Camera.main.transform.position;
+            midPosition.z = 0;
+            EventManager.Instance.CreateEnemy_2(midPosition, Random.Range(1.0f + (4 - hard_2) / 2, 1.0f + 4.0f - hard_2), 5 - hard_2, 0.5f, 5 - hard_2, -1, 1);
             hard_2_lastTime = totalTime;
         }
 
