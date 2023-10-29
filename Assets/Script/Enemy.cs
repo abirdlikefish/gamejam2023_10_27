@@ -161,7 +161,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
                 {
                     Debug.Log("can't find m_rigidbody in fly");
                 }
-                m_rigidbody.velocity = velocity * leftTime * 2 / flyTime;
+                m_rigidbody.velocity = velocity * (leftTime * 2) / flyTime;
             }
             yield return null;
         }
@@ -210,6 +210,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
             m_spriteRenderer.color = new Color(m_spriteRenderer.color.r, m_spriteRenderer.color.g, m_spriteRenderer.color.b, 1.0f - passedTime / m_growTime);
             yield return null;
         }
+        m_size = finSize;
         KillEnemy(true);
     }
 
