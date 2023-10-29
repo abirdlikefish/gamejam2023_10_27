@@ -128,24 +128,24 @@ public class Player : MonoBehaviour,IPlayerHurt
         switch(index)
         {
             case 0 :
-                m_maxHP *= 1.1f;
+                m_maxHP *= 1.3f;
                 m_HP = m_maxHP;
                 EventManager.Instance.HPChange(m_HP , m_maxHP);
                 break;
             case 1 :
-                m_speed *= 1.1f;
+                m_speed *= 1.3f;
                 break;
             case 2 :
-                m_begForce *= 1.1f;
+                m_begForce *= 1.3f;
                 break;
             case 3 :
-                m_maxForce *= 1.1f;
+                m_maxForce *= 1.3f;
                 break;
             case 4 :
-                m_forceIncreaseSpeed *= 1.1f;
+                m_forceIncreaseSpeed *= 1.3f;
                 break;
             case 5 :
-                m_enemyFlyTime *= 1.1f;
+                m_enemyFlyTime *= 1.3f;
                 break;
         }
     }

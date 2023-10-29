@@ -242,7 +242,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
         m_spriteRenderer.sprite = body;
         m_spriteRenderer_mouth.sprite = mouth;
         m_spriteRenderer_eyes.sprite = eyes;
-        m_spriteRenderer.color = new Color(m_color & 1 , (m_color >> 1) & 1 , (m_color >> 2) & 1 );
+        m_spriteRenderer.color = new Color((m_color & 1) * 0.25f + 0.5f , ((m_color >> 1) & 1) * 0.25f + 0.5f, ((m_color >> 2) & 1) * 0.25f + 0.5f);
 
         if(m_color == (1 << 3) - 1)
         {
