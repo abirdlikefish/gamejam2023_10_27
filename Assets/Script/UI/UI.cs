@@ -16,11 +16,12 @@ public class UI : MonoBehaviour
     private GameObject pauseUI;
     public Button continueBt;
     public Button exitBt;
-    
-    
+
+    private int level = 1;
     
     public GameObject LevelUpUI;
     public TextMeshProUGUI LevelUpText;
+    public TextMeshProUGUI LevelNum;
     public Slider healthUI;
     public Slider ScoreUI;
 
@@ -52,6 +53,7 @@ public class UI : MonoBehaviour
         LevelUpUI = GameObject.Find("LevelUp");
         healthUI = GameObject.Find("HealthUI").GetComponent<Slider>();
         ScoreUI = GameObject.Find("ScoreUI").GetComponent<Slider>();
+        LevelNum = GameObject.Find("Level").GetComponent<TextMeshProUGUI>();
         
         //添加监听
         continueBt.onClick.AddListener(ContinueBt);
@@ -115,6 +117,7 @@ public class UI : MonoBehaviour
         Time.timeScale = 1f;
         levelUpScore *= levelUpRate;
         score -= levelUpScore;
+        level++;
     }
 
     void AddMaxHP()
@@ -166,6 +169,7 @@ public class UI : MonoBehaviour
     }
     void ScoreUIChange(float value)
     {
+        LevelNum.text = "Level:" + level.ToString();
         ScoreUI.value = value;
     }
 
@@ -201,6 +205,7 @@ public class UI : MonoBehaviour
     {
         if (currentHealth <= 0)
         {
+            PlayerPrefs.SetInt("Level",level);
             SceneManager.LoadScene("DeadScene");
         }
     }
