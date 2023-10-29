@@ -139,7 +139,7 @@ public class Player : MonoBehaviour,IPlayerHurt
                 m_begForce *= 1.3f;
                 break;
             case 3 :
-                m_maxForce *= 1.3f;
+                m_maxForce *= 1.1f;
                 break;
             case 4 :
                 m_forceIncreaseSpeed *= 1.3f;
