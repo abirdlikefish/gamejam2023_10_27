@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -33,14 +34,17 @@ public class UI : MonoBehaviour
 
     public float score;// 当前分数
     protected float levelUpScore = 2;//下一级所需分数
-    public float levelUpRate = 1.3f;
+    protected float levelUpRate = 1.3f;
 
-    public float healthUp=100;//血量上限
-    public float currentHealth=100;//当前血量
+    protected float healthUp;//血量上限
+    protected float currentHealth;//当前血量
 
+    private void Awake()
+    {
+        EventManager.Instance.HP += HealthChange;
+        EventManager.Instance.Score += ScoreChange;
+    }
 
-
-    // Start is called before the first frame update
     void Start()
     {
         isPause = false;
@@ -62,9 +66,7 @@ public class UI : MonoBehaviour
         
         pauseUI.SetActive(false);
         LevelUpUI.SetActive(false);
-        
-        EventManager.Instance.HP += HealthChange;
-        EventManager.Instance.Score += ScoreChange;
+
     }
 
     // Update is called once per frame
@@ -197,7 +199,7 @@ public class UI : MonoBehaviour
 
     void Dead()
     {
-        if (currentHealth<=0)
+        if (currentHealth <= 0)
         {
             SceneManager.LoadScene("DeadScene");
         }

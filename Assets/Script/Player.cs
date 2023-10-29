@@ -35,9 +35,9 @@ public class Player : MonoBehaviour,IPlayerHurt
         m_speed = 5;
         m_direction = new Vector2(0,0);
         m_speedFactor = 0.5f;
-        m_begForce = 1;
+        m_begForce = 1;//开始力
         m_nowForce = 1;
-        m_maxForce = 4;
+        m_maxForce = 4;//最大力
         m_forceIncreaseSpeed = 1.5f;
         m_enemyFlyTime = 2;
         m_enemyFlySpeed = 7;
@@ -68,6 +68,7 @@ public class Player : MonoBehaviour,IPlayerHurt
     void Start()
     {
         EventManager.Instance.Level += UpLevel;
+        EventManager.Instance.HPChange(m_HP , m_maxHP);
     }
     void Update()
     {

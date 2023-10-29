@@ -31,8 +31,6 @@ public class EventManager : MonoBehaviour
 
     public void AddScore(float score)
     {
-        Debug.Log("helloworld");
-        Debug.Log(score);
         Score?.Invoke(score);
     }
 
