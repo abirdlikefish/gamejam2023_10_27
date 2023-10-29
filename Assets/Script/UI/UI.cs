@@ -32,7 +32,7 @@ public class UI : MonoBehaviour
     public UnityEngine.UI.Button flyTime;
 
     public float score;// 当前分数
-    public float levelUpScore = 20;//下一级所需分数
+    public float levelUpScore = 5;//下一级所需分数
     public float levelUpRate = 1.3f;
 
     public float healthUp=100;//血量上限
@@ -112,7 +112,7 @@ public class UI : MonoBehaviour
         LevelUpUI.SetActive(false);
         Time.timeScale = 1f;
         levelUpScore *= levelUpRate;
-        score = 0;
+        score -= levelUpScore;
     }
 
     void AddMaxHP()

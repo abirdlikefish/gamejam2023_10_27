@@ -5,17 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a3ef1d7d-a7f3-43e1-ba74-9e1224e0bd2d" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Picture/Enemy/body_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Picture/Enemy/body_1.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Picture/Enemy/body_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Picture/Enemy/body_2.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Picture/Enemy/body_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Picture/Enemy/body_3.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Picture/Enemy/body_4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Picture/Enemy/body_4.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Picture/Enemy/body_5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Picture/Enemy/body_5.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Picture/Enemy/body_6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Picture/Enemy/body_6.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GameJam/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GameJam/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Perfabs/Enemy.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Perfabs/Enemy.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Perfabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Perfabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/DeadScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/DeadScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StartSence.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/StartSence.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Script/CreateEnemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/CreateEnemy.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Script/Enemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Enemy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Script/EnemyGenerate.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Script/EnemyGenerate.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Script/EventManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/EventManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/UnityConnectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/UnityConnectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/GameObjectManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/GameObjectManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/UI/UI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/UI/UI.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,6 +72,14 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
     </configuration>
+    <configuration name="独立播放器" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="$USER_HOME$/Desktop/GameJam\GameJam.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\朱剑晨\Desktop\GameJam" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
     <configuration name="单元测试(批处理模式)" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.9f1c1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;D:\Unity Programs\GameJam&quot; -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
@@ -101,7 +120,7 @@
       <workItem from="1698473666360" duration="13925000" />
       <workItem from="1698497854752" duration="352000" />
       <workItem from="1698503888053" duration="3133000" />
-      <workItem from="1698536370851" duration="12804000" />
+      <workItem from="1698536370851" duration="14190000" />
     </task>
     <servers />
   </component>
