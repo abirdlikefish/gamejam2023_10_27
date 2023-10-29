@@ -38,7 +38,7 @@ public class Player : MonoBehaviour,IPlayerHurt
         m_begForce = 1;
         m_nowForce = 1;
         m_maxForce = 4;
-        m_forceIncreaseSpeed = 1;
+        m_forceIncreaseSpeed = 1.5f;
         m_enemyFlyTime = 2;
         m_enemyFlySpeed = 7;
         m_attackTime = 0.5f;

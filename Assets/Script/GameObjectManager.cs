@@ -61,7 +61,7 @@ public class GameObjectManager : MonoBehaviour
             color = (1 << color);
         }
 
-        Sprite spriteBody = enemyBody[Random.Range(0, 6)];
+        Sprite spriteBody = enemyBody[Random.Range(0,6)];
         Sprite spriteMouth = enemyMouth[Random.Range(0,6)];
         Sprite spriteEyes = enemyEyes[Random.Range(0,6)];
 
