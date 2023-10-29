@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
     [SerializeField]
     protected int m_color;
     protected float m_growTime;
+    protected float m_lastTime_outCamera;
 
     protected GameObject m_player;
     protected CircleCollider2D m_circleCollider;
@@ -131,8 +132,20 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
         Vector2 viewportPosition = m_camera.WorldToViewportPoint(gameObject.transform.position);
         if(viewportPosition.x < 0 || viewportPosition.y < 0 || viewportPosition.x > 1 || viewportPosition.y > 1)
         {
-            //out of the range of camera
+            if(m_lastTime_outCamera < -0.9)
+            {
+                m_lastTime_outCamera = Time.time;
+            }
+            else if(Time.time - m_lastTime_outCamera > 20 )
+            {
+                this.KillEnemy(false);
+            }
         }
+        else
+        {
+            m_lastTime_outCamera = -1;
+        }
+
     }
 
 
@@ -144,7 +157,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
         }
         m_isFly = true;
         m_circleCollider.isTrigger = true;
-        m_rigidbody.velocity = velocity;
+        m_rigidbody.velocity = velocity * strength / m_size;
         StartCoroutine(Fly(flyTime));
     }
 
@@ -155,13 +168,13 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
         while(leftTime > 0)
         {
             leftTime -= Time.deltaTime;
-            if(leftTime * 2 < flyTime)
+            if(leftTime * 3 < flyTime * 2)
             {
                 if(m_rigidbody == null)
                 {
                     Debug.Log("can't find m_rigidbody in fly");
                 }
-                m_rigidbody.velocity = velocity * (leftTime * 2) / flyTime;
+                m_rigidbody.velocity = velocity * leftTime * 3 / flyTime / 2;
             }
             yield return null;
         }
@@ -223,11 +236,13 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
         m_atk = atk;
         m_color = color;
         m_growTime = growTime;
+        m_lastTime_outCamera = -1;
 
         m_isFly = false;
         m_spriteRenderer.sprite = body;
         m_spriteRenderer_mouth.sprite = mouth;
         m_spriteRenderer_eyes.sprite = eyes;
+        m_spriteRenderer.color = new Color(m_color & 1 , (m_color >> 1) & 1 , (m_color >> 2) & 1 );
 
         if(m_color == (1 << 3) - 1)
         {

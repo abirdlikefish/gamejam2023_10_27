@@ -1,24 +1,98 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CreateEnemy : MonoBehaviour
 {
-    [Header("生成属性")] 
-    public float maxGenRad=13;
-    public float minGenRad=10;
-    public float enemy1Pro=0.2f;
-    public float createTime = 2f;
-    private float timer = 0f;
+    float cameraWidth;
+    float cameraHeight;
+
+    protected float totalTime = 0;
+
+    // 3 - 1
+    protected float hard_1 = 3;
+    protected float hard_1_factor = 0.990886678f;
+    protected bool hard_1_flag = false;
+    protected float hard_1_lastTime = 0;
+
+    // 4 - 2
+    protected float hard_2 = 4;
+    protected float hard_2_factor = 0.99615658722f;
+    protected bool hard_2_flag = false;
+    protected float hard_2_lastTime = 0;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
+        cameraHeight = Camera.main.orthographicSize * 2;
+        cameraWidth = Camera.main.aspect * cameraHeight * 2;
+        //Debug.Log("hello");
     }
 
     void Update()
     {
-        /*if(Input.GetKeyDown(KeyCode.Alpha1))
+        //Debug.Log(totalTime);
+        //Debug.Log(hard_1_lastTime);
+        //Debug.Log(hard_2_lastTime);
+        //Debug.Log("------------------------");
+
+
+        totalTime += Time.deltaTime;
+
+        if(Random.Range(0,60) == 0)
+        {
+            //Debug.Log("difficulty add");
+            if (!hard_1_flag)
+            {
+                hard_1 *= hard_1_factor;
+                if (hard_1 < 1)
+                {
+                    hard_1 = 1;
+                    hard_1_flag = true;
+                }
+            }
+            if (!hard_2_flag)
+            {
+                hard_2 *= hard_2_factor;
+                if (hard_2 < 2)
+                {
+                    hard_2 = 2;
+                    hard_2_flag = true;
+                }
+            }
+        }
+
+        if (totalTime - hard_1_lastTime > hard_1 * Random.Range(0.9f, 1.1f) )
+        {
+            //Debug.Log("create enemy1");
+            //Debug.Log(hard_1 * Random.Range(0.9f, 1.1f));
+            //new Vector3(Random.Range(-cameraWidth , cameraWidth , 0) , Random.Range(-cameraHeight, cameraHeight, 0) , 0)
+            //if(Random.Range(0,2) == 0)
+            //{
+            //}
+            EventManager.Instance.CreateEnemy_1(new Vector3(Random.Range(-cameraWidth, cameraWidth), Random.Range(-cameraHeight, cameraHeight), 0), 4 - hard_1, 0.5f, 4 - hard_1, -1, 1);
+            hard_1_lastTime = totalTime;
+        }
+
+        if (totalTime - hard_2_lastTime > hard_2 * Random.Range(0.9f, 1.1f))
+        {
+            //Debug.Log("create enemy2");
+            //new Vector3(Random.Range(-cameraWidth , cameraWidth , 0) , Random.Range(-cameraHeight, cameraHeight, 0) , 0)
+            //if(Random.Range(0,2) == 0)
+            //{
+            //}
+            EventManager.Instance.CreateEnemy_2(new Vector3(Random.Range(-cameraWidth, cameraWidth), Random.Range(-cameraHeight, cameraHeight), 0), Random.Range(1.0f + (4 - hard_2) / 2, 1.0f + 4.0f - hard_2), 5 - hard_2, 0.5f, 5 - hard_2, -1, 1);
+            hard_2_lastTime = totalTime;
+        }
+
+
+
+
+
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Debug.Log("create enemy1");
             EventManager.Instance.CreateEnemy_1(new Vector3(Random.Range(-5,5) , Random.Range(-5,5) , 0) , 1 , 0 , 1 , -1 , 1);
@@ -32,29 +106,6 @@ public class CreateEnemy : MonoBehaviour
         {
             Debug.Log("create enemy3");
             EventManager.Instance.CreateEnemy_1(gameObject.transform.position , 1 , 0 , 1 , 1 , 1);
-        }*/
-        timer += Time.deltaTime;
-        if (timer >= createTime)
-        {
-            Create();
-            timer = 0f;
-        }
-
-
-    }
-    void Create()
-    {
-        float spawnDistance = Random.Range(minGenRad, maxGenRad);
-        Vector2 randomDirection = Random.insideUnitCircle.normalized;
-        Vector3 spawnPosition = transform.position + (Vector3)randomDirection * spawnDistance;
-        float i = Random.Range(0f, 1f);
-        if (i<=enemy1Pro)
-        {
-            EventManager.Instance.CreateEnemy_1(spawnPosition, 1, 0, 1, -1, 1);
-        }
-        else
-        {
-            EventManager.Instance.CreateEnemy_2(spawnPosition , 1 , 1 , 0 , 1 , -1 , 1);
         }
     }
 }

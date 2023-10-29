@@ -64,6 +64,8 @@ public class EventManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        Application.targetFrameRate = 60;
     }
 
 }

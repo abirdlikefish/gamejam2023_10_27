@@ -1067,7 +1067,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1631513795}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5.56
+    OrthographicSize: 6.79
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -1297,7 +1297,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.56
+  orthographic size: 6.79
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3703,6 +3703,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
+      propertyPath: enemyBody.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: df194e88f99ae9d4eae3feb1721dfdf4, type: 3}
+    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
+      propertyPath: enemyBody.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 9670299dd2331074fadf1981fbcf4bfd, type: 3}
+    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
+      propertyPath: enemyBody.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 56f121dd6e8555645808e18152930729, type: 3}
+    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
+      propertyPath: enemyBody.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: d0c37094c223a5f488cf31aefdfa75ea, type: 3}
+    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
+      propertyPath: enemyBody.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: b1a422d342e60a44d92f9082d3cc058f, type: 3}
+    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
+      propertyPath: enemyBody.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300000, guid: 3b450d4be9116d944bbbabfa1d9bd725, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3716,6 +3740,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1230817829297653187, guid: 540e493563917bd41834a37bc8bec39b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: df194e88f99ae9d4eae3feb1721dfdf4, type: 3}
     - target: {fileID: 1230817829297653187, guid: 540e493563917bd41834a37bc8bec39b, type: 3}
       propertyPath: m_SortingLayer
       value: 1
@@ -3746,7 +3774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6289514157377224765, guid: 540e493563917bd41834a37bc8bec39b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.77
       objectReference: {fileID: 0}
     - target: {fileID: 6289514157377224765, guid: 540e493563917bd41834a37bc8bec39b, type: 3}
       propertyPath: m_LocalPosition.y
