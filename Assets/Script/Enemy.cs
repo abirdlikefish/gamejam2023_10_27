@@ -6,7 +6,9 @@ using System;
 
 public class Enemy : MonoBehaviour , IEnemyBeHit
 {
-    protected bool m_isStatic;
+    //protected bool m_isStatic;
+
+    protected int m_enemyType;
     [SerializeField]
     protected bool m_isFly;
     [SerializeField]
@@ -88,18 +90,54 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
             m_rigidbody.velocity = new Vector2(0, 0);
             m_circleCollider.isTrigger = false;
 
+            if(((enemy.m_enemyType >> 4) & 1) == 1)
+            {
+                enemy.m_size += m_size;
+                this.KillEnemy(false);
+
+                if(enemy.m_size > 15)
+                {
+                    enemy.GrowToDead(enemy.transform.localScale.x, enemy.m_size);
+                }
+
+                return;
+            }
+            else if((enemy.m_enemyType & 1) == 1)
+            {
+                enemy.KillEnemy(false);
+                m_spriteRenderer.color = new Color(0.75f , 0.75f , 0.75f);
+                //this.GrowToDead(m_size, m_size + enemy.m_size);
+                StartCoroutine(GrowToDead(m_size, m_size + enemy.m_size));
+                return;
+            }
+            else if ((m_enemyType & 1) == 1)
+            {
+                this.KillEnemy(false);
+                enemy.m_spriteRenderer.color = new Color(0.75f, 0.75f, 0.75f);
+                
+                enemy.StartCoroutine(enemy.GrowToDead(enemy.m_size, m_size + enemy.m_size));
+                return;
+            }
 
             int midColor = m_color | enemy.m_color;
+            //if((m_enemyType & 1) == 1)
+            //{
+            //    midColor = (1 << 3) - 1;
+            //}
+
             Vector3 midPosition = (enemy.transform.position * enemy.m_size + transform.position * m_size) / (m_size + enemy.m_size);
 
-            if(enemy.m_isStatic)
-            {
-                EventManager.Instance.CreateEnemy_1(midPosition, Math.Max(enemy.m_atk, m_atk), Math.Max(enemy.m_size, m_size), enemy.m_size + m_size, midColor, (enemy.m_growTime + m_growTime) / 2);
-            }
-            else
-            {
-                EventManager.Instance.CreateEnemy_2(midPosition, enemy.m_speed , Math.Max(enemy.m_atk, m_atk), Math.Max(enemy.m_size, m_size), enemy.m_size + m_size, midColor, (enemy.m_growTime + m_growTime) / 2);
-            }
+            //EventManager.Instance.CreateEnemy(enemyType , midPosition , )
+            EventManager.Instance.CreateEnemy(m_enemyType | enemy.m_enemyType , midPosition, enemy.m_speed, Math.Max(enemy.m_atk, m_atk), Math.Max(enemy.m_size, m_size), enemy.m_size + m_size, midColor, (enemy.m_growTime + m_growTime) / 2);
+            //}
+            //if(enemy.m_isStatic)
+            //{
+            //    EventManager.Instance.CreateEnemy_1(midPosition, Math.Max(enemy.m_atk, m_atk), Math.Max(enemy.m_size, m_size), enemy.m_size + m_size, midColor, (enemy.m_growTime + m_growTime) / 2);
+            //}
+            //else
+            //{
+            //    EventManager.Instance.CreateEnemy_2(midPosition, enemy.m_speed , Math.Max(enemy.m_atk, m_atk), Math.Max(enemy.m_size, m_size), enemy.m_size + m_size, midColor, (enemy.m_growTime + m_growTime) / 2);
+            //}
 
             enemy.KillEnemy(false);
             this.KillEnemy(false);
@@ -122,39 +160,47 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
 
     protected virtual void FixedUpdate()
     {
-        if((!m_isStatic) && (!m_isFly))
+        if(((m_enemyType >> 1) & 1 ) == 1 && (!m_isFly))
         {
             Vector2 midDirection = m_player.transform.position - gameObject.transform.position;
             midDirection.Normalize();
             m_rigidbody.velocity = m_speed * midDirection;
         }
 
-        Vector2 viewportPosition = m_camera.WorldToViewportPoint(gameObject.transform.position);
-        if(viewportPosition.x < 0 || viewportPosition.y < 0 || viewportPosition.x > 1 || viewportPosition.y > 1)
+        if(((m_enemyType >> 4) & 1) == 0)
         {
-            if(m_lastTime_outCamera < -0.9)
+            Vector2 viewportPosition = m_camera.WorldToViewportPoint(gameObject.transform.position);
+            if(viewportPosition.x < 0 || viewportPosition.y < 0 || viewportPosition.x > 1 || viewportPosition.y > 1)
             {
-                m_lastTime_outCamera = Time.time;
+                if(m_lastTime_outCamera < -0.9)
+                {
+                    m_lastTime_outCamera = Time.time;
+                }
+                else if(Time.time - m_lastTime_outCamera > 20 )
+                {
+                    this.KillEnemy(false);
+                }
             }
-            else if(Time.time - m_lastTime_outCamera > 20 )
+            else
             {
-                this.KillEnemy(false);
+                m_lastTime_outCamera = -1;
             }
         }
-        else
-        {
-            m_lastTime_outCamera = -1;
-        }
-
     }
+
 
 
     public virtual void EnemyBeHit(Vector2 velocity, float strength , float flyTime)
     {
-        if((!m_isFly) && strength < m_size )
+        if(m_isFly )
         {
             return;
         }
+        if( strength < m_size || ((m_enemyType >> 4) & 1 ) == 1)
+        {
+            return;
+        }
+
         m_isFly = true;
         m_circleCollider.isTrigger = true;
         m_rigidbody.velocity = velocity * strength / m_size;
@@ -192,6 +238,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
         m_circleCollider.isTrigger = false;
     }
 
+
     IEnumerator Grow(float begSize , float finSize )
     {
         m_circleCollider.enabled = false;
@@ -212,6 +259,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
 
     IEnumerator GrowToDead(float begSize, float finSize)
     {
+        Debug.Log("begin dead");
         m_circleCollider.enabled = false;
 
         float passedTime = 0;
@@ -224,14 +272,14 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
             yield return null;
         }
         m_size = finSize;
-        KillEnemy(true);
+        this.KillEnemy(true);
     }
 
 
-    public virtual void Initialization(GameObject player , bool isStatic , float speed, float atk, float begSize, float finSize, int color , float growTime , Sprite body , Sprite mouth , Sprite eyes)
+    public virtual void Initialization(int enemyType , GameObject player , float speed, float atk, float begSize, float finSize, int color , float growTime , Sprite body , Sprite mouth , Sprite eyes)
     {
+        m_enemyType = enemyType;
         m_player = player ;
-        m_isStatic = isStatic;
         m_speed = speed;
         m_atk = atk;
         m_color = color;
@@ -244,7 +292,19 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
         m_spriteRenderer_eyes.sprite = eyes;
         m_spriteRenderer.color = new Color((m_color & 1) * 0.25f + 0.5f , ((m_color >> 1) & 1) * 0.25f + 0.5f, ((m_color >> 2) & 1) * 0.25f + 0.5f);
 
-        if(m_color == (1 << 3) - 1)
+        if((m_enemyType & 1) == 1)
+        {
+            m_spriteRenderer.color = new Color(1.0f, 1.0f, 1.0f);
+            m_color = (1 << 3) - 1;
+            StartCoroutine(Grow(begSize, finSize));
+        }
+        else if(((m_enemyType >> 4) & 1) == 1)
+        {
+            //m_spriteRenderer.color = new Color(1.0f, 1.0f, 1.0f);
+            m_spriteRenderer.color = new Color(0,0,0);
+            m_size = finSize;
+        }
+        else if(m_color == (1 << 3) - 1)
         {
             StartCoroutine(GrowToDead(begSize, finSize));
         }

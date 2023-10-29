@@ -21,8 +21,12 @@ public class CreateEnemy : MonoBehaviour
     protected bool hard_2_flag = false;
     protected float hard_2_lastTime = 0;
 
+    // 0 color
+    // 1 move
+    // 2 boom
+    // 3 split
+    // 4 black
 
-    // Start is called before the first frame update
     void Start()
     {
         // 3 - 1
@@ -78,44 +82,50 @@ public class CreateEnemy : MonoBehaviour
 
         if (totalTime - hard_1_lastTime > hard_1 * Random.Range(0.9f, 1.1f))
         {
-            Vector3 midPosition =
-                new Vector3(Random.Range(-cameraWidth, cameraWidth), Random.Range(-cameraHeight, cameraHeight), 0) +
-                Camera.main.transform.position;
+            Vector3 midPosition =new Vector3(Random.Range(-cameraWidth, cameraWidth), Random.Range(-cameraHeight, cameraHeight), 0) + Camera.main.transform.position;
             midPosition.z = 0;
-            EventManager.Instance.CreateEnemy_1(midPosition, 4 - hard_1, 0.5f, 4 - hard_1, -1, 1);
+            EventManager.Instance.CreateEnemy( 0 , midPosition, 0 , 4 - hard_1, 0.5f, 4 - hard_1, -1, 1);
             hard_1_lastTime = totalTime;
         }
 
         if (totalTime - hard_2_lastTime > hard_2 * Random.Range(0.9f, 1.1f))
         {
-            Vector3 midPosition =
-                new Vector3(Random.Range(-cameraWidth, cameraWidth), Random.Range(-cameraHeight, cameraHeight), 0) +
-                Camera.main.transform.position;
+            Vector3 midPosition =new Vector3(Random.Range(-cameraWidth, cameraWidth), Random.Range(-cameraHeight, cameraHeight), 0) + Camera.main.transform.position;
             midPosition.z = 0;
-            EventManager.Instance.CreateEnemy_2(midPosition,
-                Random.Range(1.0f + (4 - hard_2) / 2, 1.0f + 4.0f - hard_2), 5 - hard_2, 0.5f, 5 - hard_2, -1, 1);
+
+            int midEnemyType = 1;
+            //if(Random.Range(0,20) <= 0)
+            //{
+            //    Debug.Log("create boss");
+            //    midEnemyType |= (1 << 4);
+            //}
+            //else if(Random.Range(0,20) <= 10)
+            //{
+            //    Debug.Log("create colorenemy");
+            //    midEnemyType |= 1;
+            //}
+            EventManager.Instance.CreateEnemy(midEnemyType | 2 , midPosition,Random.Range(1.0f + (4 - hard_2) / 2, 1.0f + 4.0f - hard_2), 5 - hard_2, 0.5f, 5 - hard_2, -1, 1);
             hard_2_lastTime = totalTime;
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Debug.Log("create enemy1");
-            EventManager.Instance.CreateEnemy_1(new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), 0), 1, 0, 1, -1,
-                1);
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    Debug.Log("create enemy1");
+        //    EventManager.Instance.CreateEnemy_1(new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), 0), 1, 0, 1, -1,1);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            Debug.Log("create enemy2");
-            EventManager.Instance.CreateEnemy_2(new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), 0), 1, 1, 0, 1,
-                -1, 1);
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    Debug.Log("create enemy2");
+        //    EventManager.Instance.CreateEnemy_2(new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), 0), 1, 1, 0, 1,
+        //        -1, 1);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            Debug.Log("create enemy3");
-            EventManager.Instance.CreateEnemy_1(gameObject.transform.position, 1, 0, 1, 1, 1);
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    Debug.Log("create enemy3");
+        //    EventManager.Instance.CreateEnemy_1(gameObject.transform.position, 1, 0, 1, 1, 1);
+        //}
     }
 }

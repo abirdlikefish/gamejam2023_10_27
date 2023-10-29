@@ -181,14 +181,21 @@ MonoBehaviour:
   - {fileID: 21300000, guid: df194e88f99ae9d4eae3feb1721dfdf4, type: 3}
   - {fileID: 21300000, guid: 9670299dd2331074fadf1981fbcf4bfd, type: 3}
   - {fileID: 21300000, guid: 56f121dd6e8555645808e18152930729, type: 3}
-  - {fileID: 21300000, guid: d0c37094c223a5f488cf31aefdfa75ea, type: 3}
+  - {fileID: 21300000, guid: 6d7f26de3a2a4bc46ab0c49ce90fd194, type: 3}
   - {fileID: 21300000, guid: b1a422d342e60a44d92f9082d3cc058f, type: 3}
   - {fileID: 21300000, guid: 3b450d4be9116d944bbbabfa1d9bd725, type: 3}
+  enemyBodyColor:
+  - {fileID: 21300000, guid: 4e7d31b049dd8eb4aa1dde3a5e3d4550, type: 3}
+  - {fileID: 21300000, guid: 0e03168dfa74e6044b0861a3dbba4e7f, type: 3}
+  - {fileID: 21300000, guid: 46e0a1aaf6d1ef144abe69916f5ccd9f, type: 3}
+  - {fileID: 21300000, guid: 73b0ce40b6f625a41a1a33cbc88c2dc9, type: 3}
+  - {fileID: 21300000, guid: 5e7fbb14b8e8b96408cfa92b369583ca, type: 3}
+  - {fileID: 21300000, guid: 03184cd7e02f060419fd645c71a1d731, type: 3}
   enemyEyes:
-  - {fileID: 21300000, guid: ada96371e692e484ca51d57617a2b15b, type: 3}
-  - {fileID: 21300000, guid: ebaf8061722eec7409731847e630c93f, type: 3}
+  - {fileID: -294000814, guid: d9dc5ee3c2da22f4ca7d296cf1ded0fb, type: 3}
+  - {fileID: 474006418, guid: d9dc5ee3c2da22f4ca7d296cf1ded0fb, type: 3}
   - {fileID: 21300000, guid: 6fc4b3f8e05e8b44bbbc97790a8b0cb2, type: 3}
-  - {fileID: 21300000, guid: 456e23ca45c190d4fb37c98f42eac720, type: 3}
+  - {fileID: -1841727855, guid: d9dc5ee3c2da22f4ca7d296cf1ded0fb, type: 3}
   - {fileID: 21300000, guid: 580a7db86967ae44d85cea8b7c03ae70, type: 3}
   - {fileID: 21300000, guid: f8ac99910a091354fbb6c3968c08fb6c, type: 3}
   enemyMouth:
@@ -198,6 +205,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7ece46d086b073543aff1894fd758c82, type: 3}
   - {fileID: 21300000, guid: 14c7658b478db2346a26286472cb8dd4, type: 3}
   - {fileID: 21300000, guid: ea83a305873212546aec78a67d390ede, type: 3}
+  enemyBoss: {fileID: 21300000, guid: d0c37094c223a5f488cf31aefdfa75ea, type: 3}
   player: {fileID: 1685674098570310841}
   prefabEnemy: {fileID: 4704872510637850621, guid: 540e493563917bd41834a37bc8bec39b, type: 3}
 --- !u!114 &8537948186345336539
