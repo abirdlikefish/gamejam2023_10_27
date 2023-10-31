@@ -7,7 +7,6 @@ using System;
 public class Enemy : MonoBehaviour , IEnemyBeHit
 {
     //protected bool m_isStatic;
-
     protected int m_enemyType;
     [SerializeField]
     protected bool m_isFly;
@@ -67,7 +66,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
             Debug.Log("enemy eyes spriterender is null");
         }
     }
-
+    
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if(m_isFly == false)
@@ -86,6 +85,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
             {
                 return;
             }
+            
             m_isFly = false;
             m_rigidbody.velocity = new Vector2(0, 0);
             m_circleCollider.isTrigger = false;
@@ -97,7 +97,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
 
                 if(enemy.m_size > 15)
                 {
-                    enemy.GrowToDead(enemy.transform.localScale.x, enemy.m_size);
+                    enemy.StartCoroutine(enemy.GrowToDead(enemy.transform.localScale.x, enemy.m_size));
                 }
 
                 return;
