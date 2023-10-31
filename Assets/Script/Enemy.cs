@@ -95,7 +95,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
                 enemy.m_size += m_size;
                 this.KillEnemy(false);
 
-                if(enemy.m_size > 15)
+                if(enemy.m_size > 7)
                 {
                     enemy.StartCoroutine(enemy.GrowToDead(enemy.transform.localScale.x, enemy.m_size));
                 }
@@ -167,7 +167,7 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
             m_rigidbody.velocity = m_speed * midDirection;
         }
 
-        if(((m_enemyType >> 4) & 1) == 0)
+        if(((m_enemyType >> 4) & 1) != 1)
         {
             Vector2 viewportPosition = m_camera.WorldToViewportPoint(gameObject.transform.position);
             if(viewportPosition.x < 0 || viewportPosition.y < 0 || viewportPosition.x > 1 || viewportPosition.y > 1)
@@ -268,7 +268,10 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
             passedTime += Time.deltaTime;
             float k = (finSize - begSize) * passedTime / m_growTime + begSize;
             gameObject.transform.localScale = new Vector3(k, k, k);
-            m_spriteRenderer.color = new Color(m_spriteRenderer.color.r, m_spriteRenderer.color.g, m_spriteRenderer.color.b, 1.0f - passedTime / m_growTime);
+            if(((m_enemyType >> 4) & 1) != 1)
+            {
+                m_spriteRenderer.color = new Color(m_spriteRenderer.color.r, m_spriteRenderer.color.g, m_spriteRenderer.color.b, 1.0f - passedTime / m_growTime);
+            }
             yield return null;
         }
         m_size = finSize;
