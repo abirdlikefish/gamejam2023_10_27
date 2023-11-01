@@ -7,8 +7,6 @@ public class CreateEnemy : MonoBehaviour
     float cameraWidth;
     float cameraHeight;
 
-    // protected float totalTime = 0;
-
     // 3 - 1
     protected float hard_1;
     protected float hard_1_factor;
@@ -45,6 +43,7 @@ public class CreateEnemy : MonoBehaviour
         cameraWidth = Camera.main.aspect * cameraHeight * 2;
     }
 
+bool midFlag = true;
     void Update()
     {
 
@@ -85,10 +84,12 @@ public class CreateEnemy : MonoBehaviour
             midPosition.z = 0;
 
             int midEnemyType = 0;
-            if(Random.Range(0, 20) == 0)
+            // if(Random.Range(0, 20) == 0)
+            if(midFlag)
             {
                 // Debug.Log("create boss");
                 midEnemyType |= (1 << 4);
+                midFlag = false;
             }
             else if (Random.Range(0, 20) <= 3)
             {
