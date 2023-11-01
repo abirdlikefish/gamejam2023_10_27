@@ -300,7 +300,6 @@ public class Enemy : MonoBehaviour , IEnemyBeHit
         }
         else if(((m_enemyType >> 4) & 1) == 1)
         {
-            //m_spriteRenderer.color = new Color(1.0f, 1.0f, 1.0f);
             m_spriteRenderer.color = new Color(0,0,0);
             m_size = finSize;
         }

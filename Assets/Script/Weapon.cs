@@ -72,7 +72,6 @@ public class Weapon : MonoBehaviour
             Vector2 midDirection = collision.transform.position - m_player.transform.position ;
             midDirection = midDirection.normalized;
 
-            Debug.Log("hhh");
 
             enemyBeHit.EnemyBeHit(m_enemyFlySpeed * midDirection , m_force ,m_flyTime);
         }
