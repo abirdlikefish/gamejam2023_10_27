@@ -4,11 +4,11 @@ using UnityEngine;
 
 public interface IEnemyState
 {
-    public bool isIdle { get; set; }
-    public bool isFly{ get; set; }
-    public bool isGrow{ get; set; }
-    public bool isDie{ get; set; }
-    public bool isMerge{ get; set; }
+    public bool IsIdle { get; set; }
+    public bool IsFly{ get; set; }
+    public bool IsGrow{ get; set; }
+    public bool IsDie{ get; set; }
+    public bool IsMerge{ get; set; }
     public EnemyStateBase enemyStateIdle { get; set; }
     public EnemyStateBase enemyStateFly { get; set; }
     public EnemyStateBase enemyStateGrow { get; set; }

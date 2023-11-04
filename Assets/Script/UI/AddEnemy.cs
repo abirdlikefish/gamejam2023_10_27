@@ -18,7 +18,12 @@ public class AddEnemy : MonoBehaviour
 
     public void CreateEnemy()
     {
-        EventManager.Instance.CreateEnemy(int.Parse(enemyType.text) , new Vector3(float.Parse( position_x.text),float.Parse( position_y.text), 0) , 1 , 1 , 0.5f , 1 , int.Parse(enemyColor.text) , 1);
+        if(ObjectPool.Instance.prefabEnemy == null)
+        {
+            Debug.Log("No enemy prefab selected");
+        }
+        EnemyBase enemy = (ObjectPool.Instance.GetGameObject(ObjectPool.Instance.prefabEnemy)).GetComponent<EnemyBase>();
+        enemy.Initialization(new Vector3(float.Parse( position_x.text),float.Parse( position_y.text), 0) , 0.5f , 1f , 1f , int.Parse(enemyColor.text) , 0 , 1.0f );
         Debug.Log("create Enemy");
     }
 
@@ -81,8 +86,24 @@ public class AddEnemy : MonoBehaviour
 
 
     // Update is called once per frame
+
+    // bool flag1 = false;
+    // bool flag2 = false;
     void Update()
     {
-        
+        // if(ObjectPool.Instance != null)
+        // {
+        //     flag1 = true;
+        //     Debug.Log("test : ObjectPool.Instance is not null");
+        // }
+        // if( flag1 && ObjectPool.Instance.prefabEnemy != null)
+        // {
+        //     flag2 = true;
+        //     Debug.Log("test : prefabEnemy is not null");
+        // }
+        // if(flag2 && ObjectPool.Instance.prefabEnemy == null)
+        // {
+        //     Debug.Log("test : prefabEnemy change to null");
+        // }
     }
 }

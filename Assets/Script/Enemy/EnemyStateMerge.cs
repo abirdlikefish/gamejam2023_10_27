@@ -14,21 +14,32 @@ public class EnemyStateMerge : EnemyStateBase
     public override void EnterState()
     {
         base.EnterState();
-        m_enemyState.isMerge = true;
+        m_enemyState.IsMerge = true;
 
         m_enemyMerge.enemyCollider.isTrigger = true;
-        // m_enemyGrow.ChangeEnemySize(m_enemyGrow.grow_beginSize);
+        m_enemyMerge.rigidbody2D.velocity = Vector3.zero;
 
         m_shrinkSpeed = (m_enemyMerge.enemySize ) / m_enemyMerge.merge_time;
         m_beginTime = Time.time;
+
+        if(!m_enemyMerge.BeMergeFlag)
+        {
+            Vector3 midPosition = m_enemyMerge.Merge_Position + m_enemy.transform.position * m_enemyMerge.enemySize;
+            float midSize = m_enemyMerge.Merge_Size + m_enemyMerge.enemySize;
+            midPosition /= midSize;
+
+            if(ObjectPool.Instance.prefabEnemy == null)
+            {
+                Debug.Log("No enemy prefab selected");
+            }
+            EnemyBase enemy = (ObjectPool.Instance.GetGameObject(ObjectPool.Instance.prefabEnemy)).GetComponent<EnemyBase>();
+            enemy.Initialization(midPosition , 0.1f , midSize , 1f , m_enemyMerge.Merge_Color , 0 , 1.0f );
+            Debug.Log("create Enemy");
+        }
     }
     public override void ExitState()
     {
         Debug.Log("enemy merge error");
-        // base.ExitState();
-        // m_enemyMerge.enemyCollider.isTrigger = false;
-        // m_enemyMerge.ChangeEnemySize(0);
-        // m_enemyState.isMerge = false;
     }
     public override void Update()
     {

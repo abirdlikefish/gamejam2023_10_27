@@ -74,6 +74,7 @@ bool midFlag = true;
         {
             Vector3 midPosition =new Vector3(Random.Range(-cameraWidth, cameraWidth), Random.Range(-cameraHeight, cameraHeight), 0) + Camera.main.transform.position;
             midPosition.z = 0;
+            
             EventManager.Instance.CreateEnemy( 0 , midPosition, 0 , 4 - hard_1, 0.5f, 4 - hard_1, -1, 1);
             hard_1_lastTime = Time.time;
         }

@@ -9,6 +9,7 @@ public class EnemyStateMachine
     public void initialization(EnemyStateBase begEnemyState)
     {
         m_enemyState = begEnemyState;
+        m_enemyState.EnterState();
     }
 
     public void ChangeEnemyState(EnemyStateBase enemyState)

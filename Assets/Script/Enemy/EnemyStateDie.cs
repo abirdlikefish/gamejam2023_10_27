@@ -18,7 +18,7 @@ public class EnemyStateDie : EnemyStateBase
     public override void EnterState()
     {
         base.EnterState();
-        m_enemyState.isDie = true;
+        m_enemyState.IsDie = true;
 
         m_midColor = m_enemyColor.spriteRenderer.color;
 

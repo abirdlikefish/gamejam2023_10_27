@@ -14,10 +14,9 @@ public class EnemyStateGrow : EnemyStateBase
     public override void EnterState()
     {
         base.EnterState();
-        m_enemyState.isGrow = true;
+        m_enemyState.IsGrow = true;
 
         m_enemyGrow.enemyCollider.isTrigger = true;
-        // m_enemyGrow.ChangeEnemySize(m_enemyGrow.grow_beginSize);
 
         m_growSpeed = (m_enemyGrow.grow_endSize - m_enemyGrow.enemySize) / m_enemyGrow.grow_time;
         m_beginTime = Time.time;
@@ -26,19 +25,20 @@ public class EnemyStateGrow : EnemyStateBase
     {
         base.ExitState();
         m_enemyGrow.enemyCollider.isTrigger = false;
-        m_enemyGrow.ChangeEnemySize(m_enemyGrow.grow_endSize);
-        m_enemyState.isGrow = false;
+        m_enemyGrow.grow_endSize = m_enemyGrow.enemySize;
+        m_enemyState.IsGrow = false;
     }
     public override void Update()
     {
+        // Debug.LogWarning("grow update");
         base.Update();
 
-        if(m_enemyState.isMerge)
+        if(m_enemyState.IsMerge)
         {
             m_enemyState.enemyStateMachine.ChangeEnemyState(m_enemyState.enemyStateMerge);
             return;
         }
-        if(m_enemyState.isFly)
+        if(m_enemyState.IsFly)
         {
             m_enemyState.enemyStateMachine.ChangeEnemyState(m_enemyState.enemyStateFly);
             return;
@@ -49,7 +49,9 @@ public class EnemyStateGrow : EnemyStateBase
 
         if(Time.time - m_beginTime > m_enemyGrow.grow_time)
         {
+            m_enemyGrow.ChangeEnemySize(m_enemyGrow.grow_endSize);
             m_enemyState.enemyStateMachine.ChangeEnemyState(m_enemyState.enemyStateIdle);
+            Debug.LogWarning("test after change state");
             return;
         }
     }

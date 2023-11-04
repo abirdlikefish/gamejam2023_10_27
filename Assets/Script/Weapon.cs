@@ -64,16 +64,18 @@ public class Weapon : MonoBehaviour
     {
         if(collision.CompareTag("Enemy"))
         {
-            IEnemyBeHit enemyBeHit = collision.GetComponent<IEnemyBeHit>();
-            if(enemyBeHit == null)
+            IEnemyFly enemyFLy = collision.GetComponent<IEnemyFly>();
+            if(enemyFLy == null)
             {
-                Debug.Log("enemyBeHit is null");
+                Debug.Log("enemyFly is null");
             }
-            Vector2 midDirection = collision.transform.position - m_player.transform.position ;
-            midDirection = midDirection.normalized;
 
-
-            enemyBeHit.EnemyBeHit(m_enemyFlySpeed * midDirection , m_force ,m_flyTime);
+            if(enemyFLy.enemySize < m_force)
+            {
+            Debug.LogWarning("Weapon - TriggerEnter2D");
+                enemyFLy.IsFly = true;
+                enemyFLy.flySpeed = m_enemyFlySpeed * m_force / enemyFLy.enemySize ;
+            }
         }
     }
 

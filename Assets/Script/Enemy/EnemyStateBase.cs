@@ -18,7 +18,7 @@ public class EnemyStateBase
 
     public virtual void Update()
     {
-
+        // Debug.LogWarning("enemystatebase update");
     }
 
     public virtual void FixedUpdate()

@@ -8,7 +8,7 @@ public interface IEnemyGrow
     // public float grow_beginSize{ get; set; }
     public float grow_endSize{ get; set; }
     public float grow_time{ get; set; }
-    public bool isGrow{get; set; }
+    public bool IsGrow{get; set; }
     public Collider2D enemyCollider { get ; set ; }
     public void ChangeEnemySize(float enemySize);
 

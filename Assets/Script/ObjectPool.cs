@@ -18,9 +18,14 @@ public class ObjectPool : MonoBehaviour
 
     public GameObject GetGameObject(GameObject obj)
     {
+        if(obj == null)
+        {
+            Debug.Log("obj is null");
+        }
         string name = obj.name;
-        GameObject target ;
-        if (objectPool.ContainsKey(name))
+        Debug.LogWarning("GetGameObject name: " + name);
+        GameObject target = null;
+        if (objectPool.ContainsKey(name) && objectPool[name].Count > 0)
         {
             target = objectPool[name].Dequeue();
             target.SetActive(true);
@@ -37,9 +42,10 @@ public class ObjectPool : MonoBehaviour
         string name = obj.name;
         if(!name.EndsWith("(Clone)"))
         {
-            Debug.LogWarning("failed to return gameobject");
+            Debug.Log("failed to return gameobject");
         }
-        name.Replace("(Clone)" , "");
+        name = name.Replace("(Clone)" , "");
+        Debug.LogWarning("ReturnGameObject name: " + name);
         obj.SetActive(false);
         if (objectPool.ContainsKey(name))
         {
@@ -54,50 +60,6 @@ public class ObjectPool : MonoBehaviour
 
     private void Start()
     {
-        for(int i = 1 ; i < 6 ; i++)
-        {
-            enemyBody[i - 1] = Resources.Load(" Pictures/Enemy/body_" + i.ToString() ,typeof(Sprite)) as Sprite;
-            if(enemyBody[i - 1] == null)
-            {
-                Debug.LogWarning("enemyBody" + i.ToString() + " is null");
-            }
-            enemyBodyColor[i - 1] = Resources.Load(" Pictures/Enemy/body_color_" + i.ToString(),typeof(Sprite)) as Sprite;
-            if(enemyBodyColor[i - 1] == null)
-            {
-                Debug.LogWarning("enemyBodyColor" + i.ToString() + " is null");
-            }
-            enemyEyes[i - 1] = Resources.Load(" Pictures/Enemy/eye_" + i.ToString() , typeof(Sprite) ) as Sprite ;
-            if(enemyEyes[i - 1] == null)
-            {
-                Debug.LogWarning("enemyEyes" + i.ToString() + " is null");
-            }
-            enemyMouth[i - 1] = Resources.Load(" Pictures/Enemy/mouth_" + i.ToString(), typeof(Sprite)) as Sprite;
-            if(enemyMouth[i - 1] == null)
-            {
-                Debug.LogWarning("enemyMouth" + i.ToString() + " is null");
-            }
-        }
-        enemyBoss = Resources.Load(" Pictures/Enemy/body_boss", typeof(Sprite)) as Sprite;
-        if(enemyBoss == null)
-        {
-            Debug.LogWarning("enemyBoss is null");
-        }
-
-        prefabEnemy = Resources.Load("Prefabs/Enemy" , typeof(GameObject) ) as GameObject;
-        if(prefabEnemy == null)
-        {
-            Debug.LogWarning("prefabEnemy is null");
-        }
-        prefabEnemyBoss = Resources.Load("Prefabs/EnemyBoss", typeof(GameObject) ) as GameObject;
-        if(prefabEnemyBoss == null)
-        {
-            Debug.LogWarning("prefabEnemyBoss is null");
-        }
-        prefabEnemyColor = Resources.Load("Prefabs/EnemyColor", typeof(GameObject) ) as GameObject;
-        if(prefabEnemyColor == null)
-        {
-            Debug.LogWarning("prefabEnemyColor is null");
-        }
     }
 
 
@@ -109,5 +71,51 @@ public class ObjectPool : MonoBehaviour
         {
             Instance = this;
         }
+        for(int i = 1 ; i <= 6 ; i++)
+        {
+            enemyBody[i - 1] = Resources.Load("Pictures/Enemy/body_" + i.ToString() ,typeof(Sprite)) as Sprite;
+            if(enemyBody[i - 1] == null)
+            {
+                Debug.Log("enemyBody" + i.ToString() + " is null");
+            }
+            enemyBodyColor[i - 1] = Resources.Load("Pictures/Enemy/body_color_" + i.ToString(),typeof(Sprite)) as Sprite;
+            if(enemyBodyColor[i - 1] == null)
+            {
+                Debug.Log("enemyBodyColor" + i.ToString() + " is null");
+            }
+            enemyEyes[i - 1] = Resources.Load("Pictures/Enemy/eye_" + i.ToString() , typeof(Sprite) ) as Sprite ;
+            if(enemyEyes[i - 1] == null)
+            {
+                Debug.Log("enemyEyes" + i.ToString() + " is null");
+            }
+            enemyMouth[i - 1] = Resources.Load("Pictures/Enemy/mouth_" + i.ToString(), typeof(Sprite)) as Sprite;
+            if(enemyMouth[i - 1] == null)
+            {
+                Debug.Log("enemyMouth" + i.ToString() + " is null");
+            }
+        }
+        enemyBoss = Resources.Load("Pictures/Enemy/body_boss", typeof(Sprite)) as Sprite;
+        if(enemyBoss == null)
+        {
+            Debug.Log("enemyBoss is null");
+        }
+
+        prefabEnemy = Resources.Load("Prefabs/Enemy" , typeof(GameObject) ) as GameObject;
+        if(prefabEnemy == null)
+        {
+            Debug.Log("prefabEnemy is null");
+        }
+        prefabEnemyBoss = Resources.Load("Prefabs/EnemyBoss", typeof(GameObject) ) as GameObject;
+        if(prefabEnemyBoss == null)
+        {
+            Debug.Log("prefabEnemyBoss is null");
+        }
+        prefabEnemyColor = Resources.Load("Prefabs/EnemyColor", typeof(GameObject) ) as GameObject;
+        if(prefabEnemyColor == null)
+        {
+            Debug.Log("prefabEnemyColor is null");
+        }
+
+        objectPool = new Dictionary<string, Queue<GameObject>>();
     }
 }

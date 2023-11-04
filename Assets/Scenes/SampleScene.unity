@@ -3788,6 +3788,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1148747491}
   m_CullTransparentMesh: 1
+--- !u!1 &1191653530
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1191653532}
+  - component: {fileID: 1191653531}
+  m_Layer: 0
+  m_Name: ObjectPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1191653531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191653530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630a5704ead4b074dbf602a773b048e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyBody:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  enemyBodyColor:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  enemyEyes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  enemyMouth:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  enemyBoss: {fileID: 0}
+  prefabEnemy: {fileID: 0}
+  prefabEnemyBoss: {fileID: 0}
+  prefabEnemyColor: {fileID: 0}
+--- !u!4 &1191653532
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191653530}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 96.36138, y: 98.02956, z: -3.1010008}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1226904726
 GameObject:
   m_ObjectHideFlags: 0
@@ -5561,40 +5637,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1922007960}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5fed7b2906f711428c3558cb10ba858, type: 3}
+  m_Script: {fileID: 11500000, guid: 5579674bd84d80d45a09e98d01a9cb15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyBody:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  enemyBodyColor:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  enemyEyes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  enemyMouth:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  enemyBoss: {fileID: 0}
-  player: {fileID: 0}
-  prefabEnemy: {fileID: 0}
 --- !u!4 &1922007962
 Transform:
   m_ObjectHideFlags: 0
@@ -5966,10 +6011,6 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 1761641849912055481, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1761641849912055481, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -6013,54 +6054,6 @@ PrefabInstance:
       propertyPath: virtualCamera
       value: 
       objectReference: {fileID: 410063165}
-    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
-      propertyPath: enemyBoss
-      value: 
-      objectReference: {fileID: 21300000, guid: d0c37094c223a5f488cf31aefdfa75ea, type: 3}
-    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
-      propertyPath: enemyBody.Array.data[3]
-      value: 
-      objectReference: {fileID: 21300000, guid: 6d7f26de3a2a4bc46ab0c49ce90fd194, type: 3}
-    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
-      propertyPath: enemyEyes.Array.data[0]
-      value: 
-      objectReference: {fileID: -294000814, guid: d9dc5ee3c2da22f4ca7d296cf1ded0fb, type: 3}
-    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
-      propertyPath: enemyEyes.Array.data[1]
-      value: 
-      objectReference: {fileID: 474006418, guid: d9dc5ee3c2da22f4ca7d296cf1ded0fb, type: 3}
-    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
-      propertyPath: enemyEyes.Array.data[3]
-      value: 
-      objectReference: {fileID: -1841727855, guid: d9dc5ee3c2da22f4ca7d296cf1ded0fb, type: 3}
-    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
-      propertyPath: enemyBodyColor.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 4e7d31b049dd8eb4aa1dde3a5e3d4550, type: 3}
-    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
-      propertyPath: enemyBodyColor.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300000, guid: 0e03168dfa74e6044b0861a3dbba4e7f, type: 3}
-    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
-      propertyPath: enemyBodyColor.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300000, guid: 46e0a1aaf6d1ef144abe69916f5ccd9f, type: 3}
-    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
-      propertyPath: enemyBodyColor.Array.data[3]
-      value: 
-      objectReference: {fileID: 21300000, guid: 73b0ce40b6f625a41a1a33cbc88c2dc9, type: 3}
-    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
-      propertyPath: enemyBodyColor.Array.data[4]
-      value: 
-      objectReference: {fileID: 21300000, guid: 5e7fbb14b8e8b96408cfa92b369583ca, type: 3}
-    - target: {fileID: 3381108598234456926, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
-      propertyPath: enemyBodyColor.Array.data[5]
-      value: 
-      objectReference: {fileID: 21300000, guid: 03184cd7e02f060419fd645c71a1d731, type: 3}
-    - target: {fileID: 8537948186345336539, guid: a91b0cc95e7ee3443a9da6f153620019, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6077,3 +6070,4 @@ SceneRoots:
   - {fileID: 1081870241}
   - {fileID: 1513693659}
   - {fileID: 1922007962}
+  - {fileID: 1191653532}

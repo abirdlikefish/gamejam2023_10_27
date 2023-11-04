@@ -2,14 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBase : MonoBehaviour, IEnemyState, IEnemyMerge, IEnemyGrow, IColor, IEnemySkill
+public class EnemyBase : MonoBehaviour, IEnemyState, IEnemyMerge, IEnemyGrow, IColor, IEnemySkill, IEnemyFly
 {
     // state
-    public bool isIdle { get ; set ; }
-    public bool isFly { get ; set ; }
-    public bool isGrow { get ; set ; }
-    public bool isDie { get ; set ; }
-    public bool isMerge { get ; set ; }
+    // [SerializeField]
+    // public bool isIdle { get ; set ; }
+    // public bool isFly { get ; set ; }
+    // public bool isGrow { get ; set ; }
+    // public bool isDie { get ; set ; }
+    // public bool isMerge { get ; set ; }
+
+
+    [SerializeField]
+    private bool isIdle ;
+    public bool IsIdle{get { return isIdle; } set {isIdle = value;} }
+
+    [SerializeField]
+    private bool isFly ;
+    public bool IsFly{get { return isFly; } set {isFly = value;} }
+    [SerializeField]
+    private bool isGrow ;
+    public bool IsGrow{get { return isGrow; } set {isGrow = value;} }
+    [SerializeField]
+    private bool isDie ;
+    public bool IsDie{get { return isDie; } set {isDie = value;} }
+    [SerializeField]
+    private bool isMerge ;
+    public bool IsMerge{get { return isMerge; } set {isMerge = value;} }
+    [SerializeField]
+    private bool beMergeFlag;
+    public bool BeMergeFlag{get { return beMergeFlag; } set {beMergeFlag = value;} }
+
+    [SerializeField]
+    private int merge_Color;
+    public int Merge_Color{get { return merge_Color; } set {merge_Color = value;} }
+    [SerializeField]
+    private int merge_Skill;
+    public int Merge_Skill{get { return merge_Skill; } set {merge_Skill = value;} }
+
+    [SerializeField]
+    private Vector3 merge_Position;
+    public Vector3 Merge_Position{get { return merge_Position; } set {merge_Position = value;} }
+    [SerializeField]
+    private float merge_Size;
+    public float Merge_Size{get { return merge_Size; } set {merge_Size = value;} }
+
+    
+
     public EnemyStateBase enemyStateIdle { get ; set ; }
     public EnemyStateBase enemyStateFly { get ; set ; }
     public EnemyStateBase enemyStateGrow { get ; set ; }
@@ -28,87 +67,146 @@ public class EnemyBase : MonoBehaviour, IEnemyState, IEnemyMerge, IEnemyGrow, IC
     public int colorIndex { get ; set ; }
     public SpriteRenderer spriteRenderer {get ; set ; }
 
+    public float flySpeed { get ; set ; }
+    public Rigidbody2D rigidbody2D { get; set; }
+
+
     // skill
     public int skillIndex { get ; set ; }
     public float skill_speed { get ; set ; }
-    public float skill_growSpeed { get ; set ; }
-    public float skill_divisionSize { get ; set ; }
-    public float skill_explosionRange { get ; set ; }
 
-
-    public virtual void Initialization(Vector3 position , float enemyBeginSize , float enemyEndSize , int enemyColor , 
-                        int skillIndex , float skill_speed , float skill_growSpeed , float skill_divisionSize , float skill_explosionRange)
+    public virtual void Initialization(Vector3 position , float enemyBeginSize , float enemyEndSize , float growTime , int enemyColor , 
+                        int skillIndex , float skill_speed )
     {
-        isIdle = false;
-        isFly = false;
-        isGrow = true;
-        isDie = false;
-        isMerge = false;
+        IsIdle = false;
+        IsFly = false;
+        IsGrow = false;
+        IsDie = false;
+        IsMerge = false;
+        BeMergeFlag = false;
 
         transform.position = position;
         
         ChangeEnemySize(enemyBeginSize);
         grow_endSize = enemyEndSize;
+        grow_time = growTime;
 
-        colorIndex = enemyColor;
+        Merge_Color = colorIndex = enemyColor;
         spriteRenderer = transform.GetComponent<SpriteRenderer>();
-        spriteRenderer.color = ColorTool.IndexToColor(enemyColor);
+        spriteRenderer.color = ColorTool.IndexToColor(colorIndex);
+        merge_Position = new Vector3(0,0,0);
+        merge_Size = 0;
 
-        this.skillIndex = skillIndex;
+        rigidbody2D = transform.GetComponent<Rigidbody2D>();
+        enemyCollider = transform.GetComponent<Collider2D>();
+
+        Merge_Skill = this.skillIndex = skillIndex;
         this.skill_speed = skill_speed;
-        this.skill_growSpeed = skill_growSpeed;
-        this.skill_divisionSize = skill_divisionSize;
-        this.skill_explosionRange = skill_explosionRange;
 
         enemyStateMachine = new EnemyStateMachine();
-        enemyStateIdle = new EnemyStateBase(this );
-        enemyStateFly = new EnemyStateBase(this);
-        enemyStateGrow = new EnemyStateBase(this);
-        enemyStateDie = new EnemyStateBase(this);
-        enemyStateMerge = new EnemyStateBase(this);
+        enemyStateIdle = new EnemyStateIdle(this);
+        enemyStateFly = new EnemyStateFly(this);
+        enemyStateGrow = new EnemyStateGrow(this);
+        enemyStateDie = new EnemyStateDie(this);
+        enemyStateMerge = new EnemyStateMerge(this);
         if(enemyColor == (1 << 3) - 1)
         {
             enemyStateMachine.initialization(enemyStateDie);
         }
+        else
         {
             enemyStateMachine.initialization(enemyStateGrow);
         }
     }
 
-    private void Update() 
+    public virtual void Update() 
     {
         enemyStateMachine.Update();
+
+        if(((skillIndex >> 0) & 1) == 1 && !isFly)
+        {
+            skill_move();
+        }
+
+        if(((skillIndex >> 1) & 1) == 1 && !isFly)
+        {
+            skill_grow();
+        }
+
+        if(((skillIndex >> 2) & 1) == 1 && !isFly)
+        {
+            skill_division();
+        }
+
+        if(((skillIndex >> 3) & 1) == 1 && !isFly)
+        {
+            skill_explosion();
+        }
     }
 
-    private void FixedUpdate() 
+
+
+    public virtual void FixedUpdate() 
     {
         enemyStateMachine.FixedUpdate();
     }
 
-    public void ChangeEnemySize(float enemySize)
+    public virtual void ChangeEnemySize(float enemySize)
     {
         this.enemySize = enemySize;
         transform.localScale = new Vector3(enemySize , enemySize , enemySize);
     }
 
-    public void skill_move()
+    public virtual void skill_move()
+    {
+
+    }
+
+    public virtual void skill_grow()
+    {
+        ChangeEnemySize(enemySize + 0.001f);
+    }
+
+    public virtual void skill_division()
     {
         throw new System.NotImplementedException();
     }
 
-    public void skill_grow()
+    public virtual void skill_explosion()
     {
         throw new System.NotImplementedException();
     }
 
-    public void skill_division()
+    public virtual void OnTriggerStay2D(Collider2D other) 
     {
-        throw new System.NotImplementedException();
-    }
+        // if(!isFly)
+        // {
+        //     return ;
+        // }
+        // if(BeMergeFlag)
+        // {
+        //     return ;
+        // }
+        if(isFly && !BeMergeFlag && other.CompareTag("Enemy"))
+        {
+            IEnemyMerge otherEnemy = other.GetComponent<IEnemyMerge>();
+            if(otherEnemy == null)
+            {
+                Debug.Log("otherEnemy is null");
+            }
+            if(otherEnemy.BeMergeFlag)
+            {
+                return ;
+            }
+            otherEnemy.IsMerge = this.IsMerge = true;
+            otherEnemy.merge_time = merge_time = 1;
 
-    public void skill_explosion()
-    {
-        throw new System.NotImplementedException();
+            this.Merge_Color |= otherEnemy.Merge_Color;
+            this.Merge_Skill |= otherEnemy.Merge_Skill;
+            this.Merge_Position += otherEnemy.Merge_Position + other.transform.position * otherEnemy.enemySize;
+            this.Merge_Size += otherEnemy.Merge_Size + otherEnemy.enemySize;
+            otherEnemy.BeMergeFlag = true;
+        }
     }
 
     public virtual void OnTriggerEnter2D(Collider2D other) {

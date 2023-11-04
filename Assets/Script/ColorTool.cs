@@ -33,6 +33,7 @@ public static class ColorTool
         {
             color.b = 0;
         }
+        color.a = 1;
         
         return color;
     }

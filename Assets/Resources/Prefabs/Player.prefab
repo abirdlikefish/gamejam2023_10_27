@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 9156778194233680871}
   - component: {fileID: 5653747834041958234}
   - component: {fileID: 2566134596281325655}
-  - component: {fileID: 3381108598234456926}
-  - component: {fileID: 8537948186345336539}
   - component: {fileID: 4849828756430899389}
   m_Layer: 3
   m_Name: Player
@@ -130,61 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_attackTime_lef: 0
---- !u!114 &3381108598234456926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1685674098570310841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e361b0dd7bf22ac4fbc15358ecdfe4d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyBody:
-  - {fileID: 21300000, guid: df194e88f99ae9d4eae3feb1721dfdf4, type: 3}
-  - {fileID: 21300000, guid: 9670299dd2331074fadf1981fbcf4bfd, type: 3}
-  - {fileID: 21300000, guid: 56f121dd6e8555645808e18152930729, type: 3}
-  - {fileID: 21300000, guid: 6d7f26de3a2a4bc46ab0c49ce90fd194, type: 3}
-  - {fileID: 21300000, guid: b1a422d342e60a44d92f9082d3cc058f, type: 3}
-  - {fileID: 21300000, guid: 3b450d4be9116d944bbbabfa1d9bd725, type: 3}
-  enemyBodyColor:
-  - {fileID: 21300000, guid: 4e7d31b049dd8eb4aa1dde3a5e3d4550, type: 3}
-  - {fileID: 21300000, guid: 0e03168dfa74e6044b0861a3dbba4e7f, type: 3}
-  - {fileID: 21300000, guid: 46e0a1aaf6d1ef144abe69916f5ccd9f, type: 3}
-  - {fileID: 21300000, guid: 73b0ce40b6f625a41a1a33cbc88c2dc9, type: 3}
-  - {fileID: 21300000, guid: 5e7fbb14b8e8b96408cfa92b369583ca, type: 3}
-  - {fileID: 21300000, guid: 03184cd7e02f060419fd645c71a1d731, type: 3}
-  enemyEyes:
-  - {fileID: -294000814, guid: d9dc5ee3c2da22f4ca7d296cf1ded0fb, type: 3}
-  - {fileID: 474006418, guid: d9dc5ee3c2da22f4ca7d296cf1ded0fb, type: 3}
-  - {fileID: 21300000, guid: 6fc4b3f8e05e8b44bbbc97790a8b0cb2, type: 3}
-  - {fileID: -1841727855, guid: d9dc5ee3c2da22f4ca7d296cf1ded0fb, type: 3}
-  - {fileID: 21300000, guid: 580a7db86967ae44d85cea8b7c03ae70, type: 3}
-  - {fileID: 21300000, guid: f8ac99910a091354fbb6c3968c08fb6c, type: 3}
-  enemyMouth:
-  - {fileID: 21300000, guid: b4ad990e001b3d34ea574f76fdd128fe, type: 3}
-  - {fileID: 21300000, guid: 68d905b4b449fca469e745c7e1f3d39c, type: 3}
-  - {fileID: 21300000, guid: 452673473269f764ea3efb9c5e87a32e, type: 3}
-  - {fileID: 21300000, guid: 7ece46d086b073543aff1894fd758c82, type: 3}
-  - {fileID: 21300000, guid: 14c7658b478db2346a26286472cb8dd4, type: 3}
-  - {fileID: 21300000, guid: ea83a305873212546aec78a67d390ede, type: 3}
-  enemyBoss: {fileID: 21300000, guid: d0c37094c223a5f488cf31aefdfa75ea, type: 3}
-  player: {fileID: 1685674098570310841}
-  prefabEnemy: {fileID: 4704872510637850621, guid: 540e493563917bd41834a37bc8bec39b, type: 3}
---- !u!114 &8537948186345336539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1685674098570310841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 523afe522f7e3404cb231baee5e428cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 0}
 --- !u!70 &4849828756430899389
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
