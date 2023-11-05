@@ -51,7 +51,6 @@ public class EnemyStateGrow : EnemyStateBase
         {
             m_enemyGrow.ChangeEnemySize(m_enemyGrow.grow_endSize);
             m_enemyState.enemyStateMachine.ChangeEnemyState(m_enemyState.enemyStateIdle);
-            Debug.LogWarning("test after change state");
             return;
         }
     }

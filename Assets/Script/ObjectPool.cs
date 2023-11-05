@@ -23,7 +23,7 @@ public class ObjectPool : MonoBehaviour
             Debug.Log("obj is null");
         }
         string name = obj.name;
-        Debug.LogWarning("GetGameObject name: " + name);
+        // Debug.LogWarning("GetGameObject name: " + name);
         GameObject target = null;
         if (objectPool.ContainsKey(name) && objectPool[name].Count > 0)
         {
@@ -45,7 +45,7 @@ public class ObjectPool : MonoBehaviour
             Debug.Log("failed to return gameobject");
         }
         name = name.Replace("(Clone)" , "");
-        Debug.LogWarning("ReturnGameObject name: " + name);
+        // Debug.LogWarning("ReturnGameObject name: " + name);
         obj.SetActive(false);
         if (objectPool.ContainsKey(name))
         {

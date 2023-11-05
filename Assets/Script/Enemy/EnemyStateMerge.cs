@@ -33,8 +33,12 @@ public class EnemyStateMerge : EnemyStateBase
                 Debug.Log("No enemy prefab selected");
             }
             EnemyBase enemy = (ObjectPool.Instance.GetGameObject(ObjectPool.Instance.prefabEnemy)).GetComponent<EnemyBase>();
-            enemy.Initialization(midPosition , 0.1f , midSize , 1f , m_enemyMerge.Merge_Color , 0 , 1.0f );
+            enemy.Initialization(midPosition , 0.1f , midSize , 1f , m_enemyMerge.Merge_Color , m_enemyMerge.Merge_Skill , 4 - EnemyGeneration.Instance.hard_1 );
             Debug.Log("create Enemy");
+        }
+        else
+        {
+            m_enemyMerge.BeMergeFlag = true;
         }
     }
     public override void ExitState()

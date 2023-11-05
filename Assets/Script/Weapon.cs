@@ -70,9 +70,9 @@ public class Weapon : MonoBehaviour
                 Debug.Log("enemyFly is null");
             }
 
-            if(enemyFLy.enemySize < m_force)
+            if(enemyFLy.enemySize < m_force && enemyFLy.enemySize > 0.5)
             {
-            Debug.LogWarning("Weapon - TriggerEnter2D");
+            // Debug.LogWarning("Weapon - TriggerEnter2D");
                 enemyFLy.IsFly = true;
                 enemyFLy.flySpeed = m_enemyFlySpeed * m_force / enemyFLy.enemySize ;
             }

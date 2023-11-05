@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour, IEnemyState, IEnemyMerge, IEnemyGrow, IColor, IEnemySkill, IEnemyFly
 {
-    // state
-    // [SerializeField]
-    // public bool isIdle { get ; set ; }
-    // public bool isFly { get ; set ; }
-    // public bool isGrow { get ; set ; }
-    // public bool isDie { get ; set ; }
-    // public bool isMerge { get ; set ; }
-
-
     [SerializeField]
     private bool isIdle ;
     public bool IsIdle{get { return isIdle; } set {isIdle = value;} }
@@ -70,6 +61,7 @@ public class EnemyBase : MonoBehaviour, IEnemyState, IEnemyMerge, IEnemyGrow, IC
     public float flySpeed { get ; set ; }
     public Rigidbody2D rigidbody2D { get; set; }
 
+    private GameObject m_player;
 
     // skill
     public int skillIndex { get ; set ; }
@@ -103,13 +95,25 @@ public class EnemyBase : MonoBehaviour, IEnemyState, IEnemyMerge, IEnemyGrow, IC
         Merge_Skill = this.skillIndex = skillIndex;
         this.skill_speed = skill_speed;
 
+        m_player = GameObject.FindWithTag("Player");
+        if(m_player == null)
+        {
+            Debug.LogError("Player not found");
+        }
+
+        Initialization_State();
+
+    }
+
+    public virtual void Initialization_State()
+    {
         enemyStateMachine = new EnemyStateMachine();
         enemyStateIdle = new EnemyStateIdle(this);
         enemyStateFly = new EnemyStateFly(this);
         enemyStateGrow = new EnemyStateGrow(this);
         enemyStateDie = new EnemyStateDie(this);
         enemyStateMerge = new EnemyStateMerge(this);
-        if(enemyColor == (1 << 3) - 1)
+        if(colorIndex == (1 << 3) - 1)
         {
             enemyStateMachine.initialization(enemyStateDie);
         }
@@ -159,7 +163,8 @@ public class EnemyBase : MonoBehaviour, IEnemyState, IEnemyMerge, IEnemyGrow, IC
 
     public virtual void skill_move()
     {
-
+        Vector3 midDirection = (m_player.transform.position - transform.position).normalized;
+        rigidbody2D.velocity = midDirection * skill_speed;
     }
 
     public virtual void skill_grow()
@@ -169,26 +174,22 @@ public class EnemyBase : MonoBehaviour, IEnemyState, IEnemyMerge, IEnemyGrow, IC
 
     public virtual void skill_division()
     {
-        throw new System.NotImplementedException();
+        // throw new System.NotImplementedException();
     }
 
     public virtual void skill_explosion()
     {
-        throw new System.NotImplementedException();
+        // throw new System.NotImplementedException();
     }
 
     public virtual void OnTriggerStay2D(Collider2D other) 
     {
-        // if(!isFly)
-        // {
-        //     return ;
-        // }
-        // if(BeMergeFlag)
-        // {
-        //     return ;
-        // }
-        if(isFly && !BeMergeFlag && other.CompareTag("Enemy"))
+        if(IsFly && !BeMergeFlag && other.CompareTag("Enemy"))
         {
+            if(other.GetComponent<EnemyBase>() is EnemyBoss || other.GetComponent<EnemyBase>() is EnemyColor)
+            {
+                return ;
+            }
             IEnemyMerge otherEnemy = other.GetComponent<IEnemyMerge>();
             if(otherEnemy == null)
             {
@@ -206,6 +207,17 @@ public class EnemyBase : MonoBehaviour, IEnemyState, IEnemyMerge, IEnemyGrow, IC
             this.Merge_Position += otherEnemy.Merge_Position + other.transform.position * otherEnemy.enemySize;
             this.Merge_Size += otherEnemy.Merge_Size + otherEnemy.enemySize;
             otherEnemy.BeMergeFlag = true;
+        }
+        
+        if( other.CompareTag("Player"))
+        {
+            IPlayerHurt playerHurt = other.GetComponent<IPlayerHurt>();
+            if(playerHurt == null)
+            {
+                Debug.Log("playerHurt is null");
+            }
+            playerHurt.Hurt(1);
+            // Debug.LogWarning("playerHurt");
         }
     }
 
